@@ -579,11 +579,16 @@
             background-color: var(--footer-bg);
             color: white;
             padding: 60px 0 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
         
-        .footer h5 {
-            margin-bottom: 20px;
-            color: var(--accent-color);
+        .footer .row  {
+            justify-content: center;
+             text-align: center;
         }
         
         .footer ul {
@@ -591,19 +596,10 @@
             padding-left: 0;
         }
         
-        .footer ul li {
-            margin-bottom: 10px;
+        .footer .d-flex {
+            justify-content: center;
         }
         
-        .footer ul li a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer ul li a:hover {
-            color: var(--accent-color);
-        }
         
         .copyright {
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -1229,33 +1225,31 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
-                    <p>Майбутнє починається тут.</p>
-                    <div class="d-flex mt-4">
-                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-telegram fs-5"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Контакти</h5>
-                    <ul>
-                        <li><i class="bi bi-geo-alt me-2"></i> Вінниця, вул. Привокзальна, 38</li>
-                        <li><i class="bi bi-telephone me-2"></i> +380 (68) 446-71-43</li>
-                        <li><i class="bi bi-envelope me-2"></i> glavbkeycompany@gmail.com</li>
-                        <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 - 18:00</li>
-                    </ul>
-                </div>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Первая колонка -->
+            <div class="col-lg-4 mb-4 text-center text-lg-start"> 
+                <!-- text-lg-start оставит текст слева на больших экранах, но на мобильных будет по центру -->
+                <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
+                <p>Майбутнє починається тут.</p>
             </div>
-            <div class="copyright">
-                <p>&copy; 2025 Технологічний ліцей INTITA. Всі права захищені.</p>
+            <!-- Вторая колонка -->
+            <div class="col-lg-3 col-md-6 mb-4 text-center text-lg-start">
+                <h5>Контакти</h5>
+                <ul class="list-unstyled"> <!-- Убираем маркеры списка -->
+                    <li><i class="bi bi-geo-alt me-2"></i> Вінниця, вул. Привокзальна, 38</li>
+                    <li><i class="bi bi-telephone me-2"></i> +380 (68) 446-71-43</li>
+                    <li><i class="bi bi-envelope me-2"></i> glavbkeycompany@gmail.com</li>
+                    <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 - 18:00</li>
+                </ul>
             </div>
         </div>
-    </footer>
+        <div class="copyright text-center"> <!-- Центрируем текст копирайта -->
+            <p>&copy; 2025 Технологічний ліцей INTITA. Всі права захищені.</p>
+        </div>
+    </div>
+</footer>
 
     <!-- Back to Top Button -->
     <button id="backToTop" class="btn btn-primary-custom rounded-circle position-fixed" style="bottom: 30px; right: 30px; width: 50px; height: 50px; display: none;">
