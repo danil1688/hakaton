@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Технологічний ліцей INTITA | Соціальна мережа для юних інноваторів</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #1abc9c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --footer-bg: #2c3e50;
+            --navbar-bg: #ffffff;
+            --border-color: #dee2e6;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-theme {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #1abc9c;
+            --light-color: #2c3e50;
+            --dark-color: #ecf0f1;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --footer-bg: #0d1117;
+            --navbar-bg: #1a1a1a;
+            --border-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+        }
+        
+        /* Custom Styles */
+        .navbar {
+            background-color: var(--navbar-bg) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand span {
+            color: var(--accent-color);
+        }
+        
+        .nav-link {
+            color: var(--text-color) !important;
+        }
+        
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #4a6fa5 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dark-theme .hero-section {
+            background: linear-gradient(135deg, #0d2b4e 0%, #1a3d6c 100%);
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 20s linear infinite;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-30px, -30px) rotate(0.5deg); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        .btn-primary-custom {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s both;
+            color: white;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background-color: var(--accent-color);
+            bottom: -10px;
+            left: 0;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 30px;
+            height: 100%;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .direction-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.3s ease;
+            height: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .direction-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--shadow-color);
+        }
+        
+        .direction-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .direction-content {
+            padding: 25px;
+            background: var(--card-bg);
+        }
+        
+        .community-section {
+            background-color: var(--light-color);
+            padding: 100px 0;
+        }
+        
+        .dark-theme .community-section {
+            background-color: #1a1a1a;
+        }
+        
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+        
+        .social-network-showcase {
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
+            color: white;
+            padding: 100px 0;
+            border-radius: 0;
+        }
+        
+        .dark-theme .social-network-showcase {
+            background: linear-gradient(135deg, #0d1a4d 0%, #1a5a57 100%);
+        }
+        
+        .network-feature {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .network-feature:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(10px);
+        }
+        
+        .footer {
+            background-color: var(--footer-bg);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer h5 {
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer ul li a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            color: #aaa;
+        }
+        
+        /* Theme Toggle Switch */
+        .theme-toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-left: 15px;
+        }
+        
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .theme-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .theme-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .theme-slider {
+            background-color: var(--accent-color);
+        }
+        
+        input:checked + .theme-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .theme-icon {
+            position: absolute;
+            top: 5px;
+            font-size: 18px;
+            z-index: 1;
+        }
+        
+        .sun-icon {
+            left: 8px;
+            color: #f39c12;
+        }
+        
+        .moon-icon {
+            right: 8px;
+            color: #f1c40f;
+        }
+        
+        /* Theme Toggle Container */
+        .theme-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .theme-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        
+        /* Form Elements */
+        .form-control, .form-select, .form-control:focus, .form-select:focus {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 0.25rem rgba(26, 188, 156, 0.25);
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        
+        .text-muted {
+            color: #6c757d !important;
+        }
+        
+        .dark-theme .text-muted {
+            color: #adb5bd !important;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Optimizations */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .lazy-load {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .lazy-loaded {
+            opacity: 1;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .theme-toggle-container {
+                margin-top: 10px;
+                margin-right: 0;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .theme-label {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-cpu-fill me-2"></i>
+                INTITA <span>Ліцей</span>
+            </a>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-toggle-container">
+                <span class="theme-label"></span>
+                <label class="theme-toggle">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="theme-slider"></span>
+                    <i class="bi bi-sun-fill theme-icon sun-icon"></i>
+                    <i class="bi bi-moon-fill theme-icon moon-icon"></i>
+                </label>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Головна</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Про ліцей</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#directions">Напрямки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#community">Спільнота</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#social">Соцмережа</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-primary-custom" href="#join">Приєднатися</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="hero-title">Технологічний ліцей INTITA</h1>
+                    <p class="hero-subtitle">Соціальна мережа для юних інноваторів та дослідників. Місце, де народжуються технології майбутнього.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#directions" class="btn btn-primary-custom">Дізнатися більше</a>
+                        <a href="#join" class="btn btn-outline-light btn-lg rounded-pill">Приєднатися до спільноти</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="position-relative">
+                        <div class="rounded-3 p-4 shadow-lg" style="background-color: var(--card-bg); animation: fadeInUp 1s ease-out 0.9s both;">
+                            <div class="d-flex mb-3">
+                                <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
+                                <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
+                                <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
+                            </div>
+                            <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="rounded-circle bg-secondary me-2" style="width: 40px; height: 40px;"></div>
+                                    <div>
+                                        <div class="fw-bold" style="color: var(--text-color);">Олексій Технолог</div>
+                                        <div class="small" style="color: var(--text-color); opacity: 0.7;">Представив новий проект: "Розумне місто"</div>
+                                    </div>
+                                </div>
+                                <p class="mb-0" style="color: var(--text-color);">Розробив систему автоматизованого управління вуличним освітленням з використанням штучного інтелекту.</p>
+                            </div>
+                            <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="rounded-circle bg-primary me-2" style="width: 40px; height: 40px;"></div>
+                                    <div>
+                                        <div class="fw-bold" style="color: var(--text-color);">Марія Іноватор</div>
+                                        <div class="small" style="color: var(--text-color); opacity: 0.7;">Поділилася досягненням</div>
+                                    </div>
+                                </div>
+                                <p class="mb-0" style="color: var(--text-color);">Створила власний чат-бот для допомоги у вивченні математики. Код доступний для всіх!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container py-5">
+            <h2 class="section-title text-center">Наша місія</h2>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Ми об'єднуємо талановиту молодь, яка прагне змінювати світ технологіями. Наша мета - створити середовище для розвитку інноваційного мислення та надати ресурси для реалізації амбітних проектів.</p>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <h3>Інноваційне навчання</h3>
+                        <p>Сучасні методики навчання, орієнтовані на практику та розв'язання реальних задач. Проектний підхід та робота в командах.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <h3>Спільнота однодумців</h3>
+                        <p>Приєднуйся до активних та цілеспрямованих однодумців. Спілкуйся, ділись ідеями та знаходь партнерів для своїх проектів.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">
+                            <i class="bi bi-rocket-takeoff"></i>
+                        </div>
+                        <h3>Кар'єрний старт</h3>
+                        <p>Партнерства з IT-компаніями, менторська підтримка та допомога у працевлаштуванні для найкращих студентів.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directions Section -->
+    <section id="directions" class="py-5" style="background-color: var(--light-color);">
+        <div class="container py-5">
+            <h2 class="section-title text-center">Технологічні напрямки</h2>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Ми пропонуємо сучасні освітні напрямки, які відповідають вимогам ринку та дозволяють реалізувати свій потенціал.</p>
+            
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #3498db;"></div>
+                        <div class="direction-content">
+                            <h4>Штучний інтелект та ML</h4>
+                            <p>Вивчай машинне навчання, нейронні мережі та розробку інтелектуальних систем. Створюй програми, які вміють мислити.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-primary me-2">Python</span>
+                                <span class="badge bg-primary me-2">TensorFlow</span>
+                                <span class="badge bg-primary">PyTorch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #2ecc71;"></div>
+                        <div class="direction-content">
+                            <h4>Кібербезпека</h4>
+                            <p>Навчися захищати інформаційні системи, виявляти вразливості та протидіяти кібератакам. Стань захисником цифрового простору.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-success me-2">Ethical Hacking</span>
+                                <span class="badge bg-success me-2">Cryptography</span>
+                                <span class="badge bg-success">Network Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #9b59b6;"></div>
+                        <div class="direction-content">
+                            <h4>Розробка ПЗ</h4>
+                            <p>Опануй сучасні технології розробки програмного забезпечення. Створюй веб-сайти, мобільні додатки та десктопні програми.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-purple me-2">JavaScript</span>
+                                <span class="badge bg-purple me-2">React</span>
+                                <span class="badge bg-purple">Node.js</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #e74c3c;"></div>
+                        <div class="direction-content">
+                            <h4>Робототехніка</h4>
+                            <p>Конструюй та програмуй роботів. Вивчай мікроелектроніку, автоматизацію та створення розумних механізмів.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-danger me-2">Arduino</span>
+                                <span class="badge bg-danger me-2">Raspberry Pi</span>
+                                <span class="badge bg-danger">C++</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #f39c12;"></div>
+                        <div class="direction-content">
+                            <h4>Data Science</h4>
+                            <p>Навчися аналізувати великі дані, будувати прогнози та візуалізувати результати. Приймай рішення на основі даних.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-warning me-2">Python</span>
+                                <span class="badge bg-warning me-2">SQL</span>
+                                <span class="badge bg-warning">Tableau</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in">
+                        <div class="direction-img" style="background-color: #1abc9c;"></div>
+                        <div class="direction-content">
+                            <h4>Game Development</h4>
+                            <p>Створюй власні ігрові всесвіти. Опануй геймдизайн, програмування ігрових рушіїв та створення графіки.</p>
+                            <div class="mt-3">
+                                <span class="badge bg-info me-2">Unity</span>
+                                <span class="badge bg-info me-2">C#</span>
+                                <span class="badge bg-info">3D Modeling</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Network Section -->
+    <section id="social" class="social-network-showcase">
+        <div class="container py-5">
+            <h2 class="text-center mb-5" style="color: white;">Соціальна мережа для інноваторів</h2>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="network-feature fade-in">
+                        <h4><i class="bi bi-share me-2"></i> Ділися проектами</h4>
+                        <p>Публікуй свої роботи, отримуй зворотний зв'язок та знаходь однодумців для співпраці.</p>
+                    </div>
+                    <div class="network-feature fade-in">
+                        <h4><i class="bi bi-chat-dots me-2"></i> Спілкуйся з експертами</h4>
+                        <p>Отримуй консультації від менторів, досвідчених розробників та представників IT-індустрії.</p>
+                    </div>
+                    <div class="network-feature fade-in">
+                        <h4><i class="bi bi-trophy me-2"></i> Бере участь у конкурсах</h4>
+                        <p>Демонструй свої навички та вигравай цінні призи у регулярних хакатонах та конкурсах.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="rounded-3 p-4 shadow-lg mt-5 mt-lg-0 fade-in" style="background-color: var(--card-bg);">
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
+                            <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
+                            <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; color: white;">
+                                    <i class="bi bi-person-fill"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold" style="color: var(--text-color);">Ваш профіль</div>
+                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">Рівень: Інноватор | Проектів: 3</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="fw-bold" style="color: var(--text-color);">Новини спільноти</div>
+                                <span class="badge bg-primary">5 нових</span>
+                            </div>
+                            <div class="mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                    <div style="color: var(--text-color);">Марія запустила новий проект "EcoTracker"</div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                    <div style="color: var(--text-color);">Завтра вебінар з машинного навчання</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                    <div style="color: var(--text-color);">Новий хакатон з кібербезпеки</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
+                            <div class="fw-bold mb-2" style="color: var(--text-color);">Активні проекти</div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 75%"></div>
+                            </div>
+                            <div class="small" style="color: var(--text-color); opacity: 0.7;">Ваш проект "AI Assistant" на 75% завершено</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community-section">
+        <div class="container py-5">
+            <h2 class="section-title text-center">Наша спільнота</h2>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Приєднуйся до тисячі талановитих студентів, які вже реалізують свої ідеї разом з нами.</p>
+            
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card fade-in">
+                        <div class="text-center">
+                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
+                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
+                            </div>
+                            <h5>Олексій Петренко</h5>
+                            <p class="text-muted">Розробник штучного інтелекту, 17 років</p>
+                        </div>
+                        <p class="text-center">"Завдяки INTITA я не лише навчився програмувати нейронні мережі, але й знайшов команду для свого стартапу. Наш проект вже отримав фінансування!"</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card fade-in">
+                        <div class="text-center">
+                            <div class="rounded-circle bg-success d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
+                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
+                            </div>
+                            <h5>Марія Коваленко</h5>
+                            <p class="text-muted">Спеціаліст з кібербезпеки, 16 років</p>
+                        </div>
+                        <p class="text-center">"Ліцей дає неймовірні можливості для розвитку. Я вже пройшла стажування в IT-компанії та отримала пропозицію про подальшу співпрацю після закінчення навчання."</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card fade-in">
+                        <div class="text-center">
+                            <div class="rounded-circle bg-warning d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
+                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
+                            </div>
+                            <h5>Дмитро Шевченко</h5>
+                            <p class="text-muted">Game Developer, 18 років</p>
+                        </div>
+                        <p class="text-center">"Соціальна мережа INTITA дозволила мені знайти художника та звукорежисера для моєї гри. Разом ми створили проект, який зараз має понад 10,000 завантажень!"</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="display-4 fw-bold text-primary">1500+</div>
+                        <div class="fs-5">Активних учасників</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="display-4 fw-bold text-success">300+</div>
+                        <div class="fs-5">Реалізованих проектів</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="display-4 fw-bold text-warning">50+</div>
+                        <div class="fs-5">Партнерських компаній</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="display-4 fw-bold text-info">20+</div>
+                        <div class="fs-5">Менторів та експертів</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Section -->
+    <section id="join" class="py-5">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Приєднуйся до нашої спільноти</h2>
+                    <p class="fs-5 mb-5">Не гав часу! Почни свій шлях у світ технологій разом з однодумцями. Заповни форму та отримай детальну інформацію про вступ до INTITA.</p>
+                    
+                    <div class="card shadow-lg border-0 fade-in">
+                        <div class="card-body p-5">
+                            <form id="joinForm">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">Ім'я</label>
+                                        <input type="text" class="form-control form-control-lg" id="firstName" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">Прізвище</label>
+                                        <input type="text" class="form-control form-control-lg" id="lastName" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Електронна пошта</label>
+                                    <input type="email" class="form-control form-control-lg" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="interest" class="form-label">Напрямок, що цікавить</label>
+                                    <select class="form-select form-select-lg" id="interest" required>
+                                        <option value="" selected disabled>Оберіть напрямок</option>
+                                        <option value="ai">Штучний інтелект та ML</option>
+                                        <option value="cybersecurity">Кібербезпека</option>
+                                        <option value="development">Розробка ПЗ</option>
+                                        <option value="robotics">Робототехніка</option>
+                                        <option value="data">Data Science</option>
+                                        <option value="gamedev">Game Development</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Розкажіть про ваші інтереси та досвід (необов'язково)</label>
+                                    <textarea class="form-control" id="message" rows="3"></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary-custom btn-lg">Відправити заявку</button>
+                                </div>
+                                <p class="text-muted small mt-3">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
+                    <p>Соціальна мережа для юних інноваторів та дослідників. Місце, де народжуються технології майбутнього.</p>
+                    <div class="d-flex mt-4">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-instagram fs-5"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-telegram fs-5"></i></a>
+                        <a href="#" class="text-white"><i class="bi bi-youtube fs-5"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Навігація</h5>
+                    <ul>
+                        <li><a href="#home">Головна</a></li>
+                        <li><a href="#about">Про ліцей</a></li>
+                        <li><a href="#directions">Напрямки</a></li>
+                        <li><a href="#community">Спільнота</a></li>
+                        <li><a href="#social">Соцмережа</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Напрямки навчання</h5>
+                    <ul>
+                        <li><a href="#">Штучний інтелект</a></li>
+                        <li><a href="#">Кібербезпека</a></li>
+                        <li><a href="#">Розробка ПЗ</a></li>
+                        <li><a href="#">Робототехніка</a></li>
+                        <li><a href="#">Data Science</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Контакти</h5>
+                    <ul>
+                        <li><i class="bi bi-geo-alt me-2"></i> Київ, вул. Технологічна, 42</li>
+                        <li><i class="bi bi-telephone me-2"></i> +380 (44) 123-45-67</li>
+                        <li><i class="bi bi-envelope me-2"></i> info@intita-lyceum.ua</li>
+                        <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 - 18:00</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Технологічний ліцей INTITA. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="btn btn-primary-custom rounded-circle position-fixed" style="bottom: 30px; right: 30px; width: 50px; height: 50px; display: none;">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or respect OS preference
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        // Apply saved theme
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggle.checked = true;
+        }
+        
+        // Theme toggle event
+        themeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-theme');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+        
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.style.display = 'block';
+            } else {
+                backToTopButton.style.display = 'none';
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Form submission
+        document.getElementById('joinForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const firstName = document.getElementById('firstName').value;
+            const email = document.getElementById('email').value;
+            const interest = document.getElementById('interest').value;
+            
+            // Simple validation
+            if (firstName && email && interest) {
+                // In a real application, you would send data to a server here
+                alert(`Дякуємо, ${firstName}! Ваша заявка прийнята. Ми зв'яжемося з вами на пошту ${email} для подальших інструкцій.`);
+                
+                // Reset form
+                document.getElementById('joinForm').reset();
+            }
+        });
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all elements with fade-in class
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile navbar if open
+                    const navbarToggler = document.querySelector('.navbar-toggler');
+                    const navbarCollapse = document.querySelector('.navbar-collapse');
+                    
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarToggler.click();
+                    }
+                }
+            });
+        });
+        
+        // Lazy loading images
+        document.addEventListener('DOMContentLoaded', function() {
+            const lazyImages = document.querySelectorAll('.lazy-load');
+            
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add('lazy-loaded');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            lazyImages.forEach(img => imageObserver.observe(img));
+        });
+        
+        // Navbar background on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
