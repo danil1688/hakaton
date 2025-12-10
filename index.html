@@ -296,82 +296,158 @@
             color: #aaa;
         }
         
-        /* Theme Toggle Switch */
+        /* ОНОВЛЕНИЙ ПЕРЕМИКАЧ ТЕМ - КРУГЛИЙ ІНТЕГРОВАНИЙ */
+        .theme-toggle-container {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            position: relative;
+        }
+        
         .theme-toggle {
             position: relative;
             display: inline-block;
             width: 60px;
-            height: 30px;
-            margin-left: 15px;
+            height: 60px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .theme-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+            border-color: var(--accent-color);
+        }
+        
+        .theme-toggle:active {
+            transform: translateY(-1px);
         }
         
         .theme-toggle input {
             opacity: 0;
             width: 0;
             height: 0;
-        }
-        
-        .theme-slider {
             position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 30px;
         }
         
-        .theme-slider:before {
+        .theme-toggle-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .theme-icon-wrapper {
             position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            opacity: 0;
+            transform: scale(0.5);
         }
         
-        input:checked + .theme-slider {
-            background-color: var(--accent-color);
+        .sun-icon-wrapper {
+            opacity: 1;
+            transform: scale(1);
         }
         
-        input:checked + .theme-slider:before {
-            transform: translateX(30px);
+        .moon-icon-wrapper {
+            transform: rotate(-180deg);
+        }
+        
+        input:checked ~ .theme-toggle-content .sun-icon-wrapper {
+            opacity: 0;
+            transform: scale(0.5) rotate(180deg);
+        }
+        
+        input:checked ~ .theme-toggle-content .moon-icon-wrapper {
+            opacity: 1;
+            transform: scale(1) rotate(0);
         }
         
         .theme-icon {
-            position: absolute;
-            top: 5px;
-            font-size: 18px;
-            z-index: 1;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
         }
         
         .sun-icon {
-            left: 8px;
             color: #f39c12;
+            filter: drop-shadow(0 0 3px rgba(243, 156, 18, 0.3));
         }
         
         .moon-icon {
-            right: 8px;
+            color: #f1c40f;
+            filter: drop-shadow(0 0 3px rgba(241, 196, 15, 0.3));
+        }
+        
+        .dark-theme .sun-icon {
             color: #f1c40f;
         }
         
-        /* Theme Toggle Container */
-        .theme-toggle-container {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
+        .dark-theme .moon-icon {
+            color: #ffeb3b;
         }
         
         .theme-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-color);
-            margin-right: 8px;
+            margin-right: 10px;
             white-space: nowrap;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .theme-toggle-container:hover .theme-label {
+            opacity: 1;
+        }
+        
+        /* Анімація світлових променів */
+        @keyframes sun-rays {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .sun-rays {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        
+        .sun-ray {
+            position: absolute;
+            width: 2px;
+            height: 12px;
+            background: #f39c12;
+            top: 10px;
+            left: 50%;
+            transform-origin: 50% 20px;
+            opacity: 0.6;
+            border-radius: 1px;
+        }
+        
+        .sun-ray:nth-child(1) { transform: rotate(0deg); }
+        .sun-ray:nth-child(2) { transform: rotate(45deg); }
+        .sun-ray:nth-child(3) { transform: rotate(90deg); }
+        .sun-ray:nth-child(4) { transform: rotate(135deg); }
+        .sun-ray:nth-child(5) { transform: rotate(180deg); }
+        .sun-ray:nth-child(6) { transform: rotate(225deg); }
+        .sun-ray:nth-child(7) { transform: rotate(270deg); }
+        .sun-ray:nth-child(8) { transform: rotate(315deg); }
+        
+        .sun-icon-wrapper .sun-rays {
+            animation: sun-rays 10s linear infinite;
         }
         
         /* Form Elements */
@@ -454,6 +530,15 @@
                 margin-top: 10px;
                 margin-right: 0;
             }
+            
+            .theme-toggle {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .theme-icon {
+                font-size: 1.3rem;
+            }
         }
         
         @media (max-width: 992px) {
@@ -472,14 +557,28 @@
                 INTITA <span>Ліцей</span>
             </a>
             
-            <!-- Theme Toggle -->
             <div class="theme-toggle-container">
                 <span class="theme-label"></span>
                 <label class="theme-toggle">
                     <input type="checkbox" id="themeToggle">
-                    <span class="theme-slider"></span>
-                    <i class="bi bi-sun-fill theme-icon sun-icon"></i>
-                    <i class="bi bi-moon-fill theme-icon moon-icon"></i>
+                    <div class="theme-toggle-content">
+                        <div class="theme-icon-wrapper sun-icon-wrapper">
+                            <div class="sun-rays">
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                                <div class="sun-ray"></div>
+                            </div>
+                            <i class="bi bi-sun-fill theme-icon sun-icon"></i>
+                        </div>
+                        <div class="theme-icon-wrapper moon-icon-wrapper">
+                            <i class="bi bi-moon-fill theme-icon moon-icon"></i>
+                        </div>
+                    </div>
                 </label>
             </div>
             
