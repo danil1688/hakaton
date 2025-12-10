@@ -8,6 +8,14 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        // Ініціалізація EmailJS - ПОТРІБНО ЗАМІНИТИ 'YOUR_PUBLIC_KEY' НА СВІЙ КЛЮЧ
+        (function() {
+            emailjs.init("x3U6birXPY5hF879v"); // Замінити на свій Public Key
+        })();
+    </script>
     <!-- Custom CSS -->
     <style>
         :root {
@@ -55,36 +63,330 @@
             background-color: var(--bg-color);
         }
         
-        /* Custom Styles */
-        .navbar {
-            background-color: var(--navbar-bg) !important;
-            border-bottom: 1px solid var(--border-color);
+        /* ПЛАВАЮЧИЙ ХЕДЕР (оновлений стиль) */
+        .floating-header {
+            position: fixed;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            z-index: 9999;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: transform 0.3s ease, opacity 0.3s ease;
         }
         
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            color: var(--primary-color) !important;
+        .dark-theme .floating-header .header-inner {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
         }
         
-        .navbar-brand span {
+        .floating-header .header-inner {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 12px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
             color: var(--accent-color);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
         }
         
-        .nav-link {
-            color: var(--text-color) !important;
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.3rem;
         }
         
-        .nav-link:hover {
-            color: var(--accent-color) !important;
+        .logo span {
+            color: var(--text-color);
+        }
+        
+        .menu {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 8px;
+        }
+        
+        .menu a:hover, .menu a.active {
+            color: var(--accent-color);
+            background-color: rgba(26, 188, 156, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .header-icons i {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 8px;
+        }
+        
+        .header-icons i:hover {
+            color: var(--accent-color);
+            background-color: rgba(26, 188, 156, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Перемикач теми для плаваючого хедера */
+        .theme-toggle-floating {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 2px solid var(--border-color);
+            overflow: hidden;
+        }
+        
+        .theme-toggle-floating:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-color);
+            border-color: var(--accent-color);
+        }
+        
+        .theme-toggle-floating input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        
+        .theme-toggle-content-floating {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .theme-icon-wrapper-floating {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        
+        .sun-icon-wrapper-floating {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .moon-icon-wrapper-floating {
+            transform: rotate(-180deg);
+        }
+        
+        input:checked ~ .theme-toggle-content-floating .sun-icon-wrapper-floating {
+            opacity: 0;
+            transform: scale(0.5) rotate(180deg);
+        }
+        
+        input:checked ~ .theme-toggle-content-floating .moon-icon-wrapper-floating {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+        
+        .theme-icon-floating {
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .sun-icon-floating {
+            color: #f39c12;
+            filter: drop-shadow(0 0 3px rgba(243, 156, 18, 0.3));
+        }
+        
+        .moon-icon-floating {
+            color: #f1c40f;
+            filter: drop-shadow(0 0 3px rgba(241, 196, 15, 0.3));
+        }
+        
+        /* Кнопка мобільного меню - ИСПРАВЛЕНО */
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: none;
+            border: none;
+        }
+        
+        .mobile-menu-btn:hover {
+            color: var(--accent-color);
+            background-color: rgba(26, 188, 156, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Кнопка "Приєднатися" для десктопу */
+        .join-btn-desktop {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 10px 24px;
+            font-weight: 600;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .join-btn-desktop:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+            color: white;
+        }
+        
+        /* Адаптивність */
+        @media (max-width: 992px) {
+            .menu {
+                gap: 15px;
+            }
+            
+            .menu a {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .theme-toggle-floating {
+                width: 45px;
+                height: 45px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .floating-header {
+                top: 15px;
+                width: 95%;
+            }
+            
+            .header-inner {
+                padding: 10px 20px;
+            }
+            
+            .menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--card-bg);
+                flex-direction: column;
+                padding: 20px;
+                border-radius: 14px;
+                margin-top: 10px;
+                box-shadow: 0 10px 30px var(--shadow-color);
+                border: 1px solid var(--border-color);
+                z-index: 1000;
+                width: 100%;
+            }
+            
+            .menu.active {
+                display: flex;
+                animation: slideDown 0.3s ease;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-10px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            .menu a {
+                padding: 12px 20px;
+                text-align: center;
+                border-radius: 10px;
+                margin: 5px 0;
+                background: var(--navbar-bg);
+                border: 1px solid var(--border-color);
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .join-btn-desktop {
+                display: none;
+            }
+            
+            .logo span {
+                display: none;
+            }
+            
+            .header-icons {
+                gap: 15px;
+            }
+        }
+        
+        /* Відступ для контенту під фіксованим хедером */
+        body {
+            padding-top: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding-top: 90px;
+            }
         }
         
         .hero-section {
             background: linear-gradient(135deg, var(--primary-color) 0%, #4a6fa5 100%);
             color: white;
-            padding: 100px 0;
+            padding: 80px 0 100px;
             position: relative;
             overflow: hidden;
+            margin-top: -100px;
+            padding-top: 180px;
         }
         
         .dark-theme .hero-section {
@@ -208,6 +510,21 @@
             background: var(--card-bg);
         }
         
+        /* БАДЖИ ДЛЯ ТЕМНОЇ ТЕМИ - ДОБАВЛЕНО БІЛУ ОБВОДКУ */
+        .dark-theme .badge.bg-purple {
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .badge.bg-purple {
+            background-color: #9b59b6 !important;
+            border: 1px solid transparent;
+        }
+        
+        /* Додамо білу обводку для всіх баджів у темній темі */
+        .dark-theme .badge {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
         .community-section {
             background-color: var(--light-color);
             padding: 100px 0;
@@ -296,160 +613,6 @@
             color: #aaa;
         }
         
-        /* ОНОВЛЕНИЙ ПЕРЕМИКАЧ ТЕМ - КРУГЛИЙ ІНТЕГРОВАНИЙ */
-        .theme-toggle-container {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-            position: relative;
-        }
-        
-        .theme-toggle {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 2px solid var(--border-color);
-            overflow: hidden;
-        }
-        
-        .theme-toggle:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--shadow-color);
-            border-color: var(--accent-color);
-        }
-        
-        .theme-toggle:active {
-            transform: translateY(-1px);
-        }
-        
-        .theme-toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
-        
-        .theme-toggle-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .theme-icon-wrapper {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            opacity: 0;
-            transform: scale(0.5);
-        }
-        
-        .sun-icon-wrapper {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .moon-icon-wrapper {
-            transform: rotate(-180deg);
-        }
-        
-        input:checked ~ .theme-toggle-content .sun-icon-wrapper {
-            opacity: 0;
-            transform: scale(0.5) rotate(180deg);
-        }
-        
-        input:checked ~ .theme-toggle-content .moon-icon-wrapper {
-            opacity: 1;
-            transform: scale(1) rotate(0);
-        }
-        
-        .theme-icon {
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        
-        .sun-icon {
-            color: #f39c12;
-            filter: drop-shadow(0 0 3px rgba(243, 156, 18, 0.3));
-        }
-        
-        .moon-icon {
-            color: #f1c40f;
-            filter: drop-shadow(0 0 3px rgba(241, 196, 15, 0.3));
-        }
-        
-        .dark-theme .sun-icon {
-            color: #f1c40f;
-        }
-        
-        .dark-theme .moon-icon {
-            color: #ffeb3b;
-        }
-        
-        .theme-label {
-            font-size: 0.85rem;
-            color: var(--text-color);
-            margin-right: 10px;
-            white-space: nowrap;
-            font-weight: 500;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-        
-        .theme-toggle-container:hover .theme-label {
-            opacity: 1;
-        }
-        
-        /* Анімація світлових променів */
-        @keyframes sun-rays {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .sun-rays {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-        }
-        
-        .sun-ray {
-            position: absolute;
-            width: 2px;
-            height: 12px;
-            background: #f39c12;
-            top: 10px;
-            left: 50%;
-            transform-origin: 50% 20px;
-            opacity: 0.6;
-            border-radius: 1px;
-        }
-        
-        .sun-ray:nth-child(1) { transform: rotate(0deg); }
-        .sun-ray:nth-child(2) { transform: rotate(45deg); }
-        .sun-ray:nth-child(3) { transform: rotate(90deg); }
-        .sun-ray:nth-child(4) { transform: rotate(135deg); }
-        .sun-ray:nth-child(5) { transform: rotate(180deg); }
-        .sun-ray:nth-child(6) { transform: rotate(225deg); }
-        .sun-ray:nth-child(7) { transform: rotate(270deg); }
-        .sun-ray:nth-child(8) { transform: rotate(315deg); }
-        
-        .sun-icon-wrapper .sun-rays {
-            animation: sun-rays 10s linear infinite;
-        }
-        
         /* Form Elements */
         .form-control, .form-select, .form-control:focus, .form-select:focus {
             background-color: var(--card-bg);
@@ -497,6 +660,59 @@
             transform: translateY(0);
         }
         
+        /* Success message after form submission */
+        .form-success {
+            display: none;
+            background-color: rgba(46, 204, 113, 0.1);
+            border: 1px solid #2ecc71;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .form-success.show {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        
+        .form-success i {
+            font-size: 3rem;
+            color: #2ecc71;
+            margin-bottom: 15px;
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--accent-color);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        .dark-theme .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--accent-color);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
         /* Optimizations */
         img {
             max-width: 100%;
@@ -512,100 +728,103 @@
             opacity: 1;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
+        /* Додаткові адаптивні стилі */
+        @media (max-width: 576px) {
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .section-title {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
-            .theme-toggle-container {
-                margin-top: 10px;
-                margin-right: 0;
+            .btn-primary-custom {
+                padding: 10px 20px;
+                font-size: 0.9rem;
             }
             
-            .theme-toggle {
-                width: 50px;
-                height: 50px;
+            .theme-toggle-floating {
+                width: 40px;
+                height: 40px;
             }
             
-            .theme-icon {
+            .theme-icon-floating {
+                font-size: 1rem;
+            }
+            
+            .mobile-menu-btn {
                 font-size: 1.3rem;
+                padding: 6px;
             }
         }
         
-        @media (max-width: 992px) {
-            .theme-label {
-                display: none;
+        @media (max-width: 400px) {
+            .floating-header {
+                width: 97%;
+                top: 10px;
+            }
+            
+            .header-inner {
+                padding: 8px 15px;
+            }
+            
+            .logo {
+                font-size: 1.1rem;
+            }
+            
+            .header-icons {
+                gap: 10px;
+            }
+            
+            .mobile-menu-btn {
+                font-size: 1.2rem;
+                margin-left: 5px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="bi bi-cpu-fill me-2"></i>
-                INTITA <span>Ліцей</span>
-            </a>
-            
-            <div class="theme-toggle-container">
-                <span class="theme-label"></span>
-                <label class="theme-toggle">
-                    <input type="checkbox" id="themeToggle">
-                    <div class="theme-toggle-content">
-                        <div class="theme-icon-wrapper sun-icon-wrapper">
-                            <div class="sun-rays">
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                                <div class="sun-ray"></div>
-                            </div>
-                            <i class="bi bi-sun-fill theme-icon sun-icon"></i>
+    <!-- ПЛАВАЮЧИЙ ХЕДЕР -->
+    <nav class="floating-header">
+        <div class="header-inner">
+            <div class="logo">
+                <i class="bi bi-cpu-fill"></i>
+                INTITA<span> Ліцей</span>
+            </div>
+
+            <ul class="menu">
+                <li><a href="#home" class="active">Головна</a></li>
+                <li><a href="#about">Про ліцей</a></li>
+                <li><a href="#directions">Напрямки</a></li>
+                <li><a href="#social">Соцмережа</a></li>
+                <li><a href="#community">Спільнота</a></li>
+            </ul>
+
+            <div class="header-icons">
+                <!-- Кнопка "Приєднатися" для десктопу -->
+                <a href="#join" class="join-btn-desktop">Приєднатися</a>
+                
+                <!-- Перемикач теми -->
+                <label class="theme-toggle-floating">
+                    <input type="checkbox" id="themeToggleFloating">
+                    <div class="theme-toggle-content-floating">
+                        <div class="theme-icon-wrapper-floating sun-icon-wrapper-floating">
+                            <i class="bi bi-sun-fill theme-icon-floating sun-icon-floating"></i>
                         </div>
-                        <div class="theme-icon-wrapper moon-icon-wrapper">
-                            <i class="bi bi-moon-fill theme-icon moon-icon"></i>
+                        <div class="theme-icon-wrapper-floating moon-icon-wrapper-floating">
+                            <i class="bi bi-moon-fill theme-icon-floating moon-icon-floating"></i>
                         </div>
                     </div>
                 </label>
-            </div>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#home">Головна</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">Про ліцей</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#directions">Напрямки</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#community">Спільнота</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#social">Соцмережа</a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-primary-custom" href="#join">Приєднатися</a>
-                    </li>
-                </ul>
+                
+                <!-- Кнопка мобільного меню - ИСПРАВЛЕНО -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="bi bi-list"></i>
+                </button>
             </div>
         </div>
     </nav>
@@ -946,41 +1165,62 @@
                     <div class="card shadow-lg border-0 fade-in">
                         <div class="card-body p-5">
                             <form id="joinForm">
+                                <input type="hidden" name="form_type" value="intita_application">
+                                
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="firstName" class="form-label">Ім'я</label>
-                                        <input type="text" class="form-control form-control-lg" id="firstName" required>
+                                        <input type="text" class="form-control form-control-lg" id="firstName" name="first_name" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="lastName" class="form-label">Прізвище</label>
-                                        <input type="text" class="form-control form-control-lg" id="lastName" required>
+                                        <input type="text" class="form-control form-control-lg" id="lastName" name="last_name" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Електронна пошта</label>
-                                    <input type="email" class="form-control form-control-lg" id="email" required>
+                                    <input type="email" class="form-control form-control-lg" id="email" name="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Номер телефону (необов'язково)</label>
+                                    <input type="tel" class="form-control form-control-lg" id="phone" name="phone">
                                 </div>
                                 <div class="mb-3">
                                     <label for="interest" class="form-label">Напрямок, що цікавить</label>
-                                    <select class="form-select form-select-lg" id="interest" required>
+                                    <select class="form-select form-select-lg" id="interest" name="interest" required>
                                         <option value="" selected disabled>Оберіть напрямок</option>
-                                        <option value="ai">Штучний інтелект та ML</option>
-                                        <option value="cybersecurity">Кібербезпека</option>
-                                        <option value="development">Розробка ПЗ</option>
-                                        <option value="robotics">Робототехніка</option>
-                                        <option value="data">Data Science</option>
-                                        <option value="gamedev">Game Development</option>
+                                        <option value="Штучний інтелект та ML">Штучний інтелект та ML</option>
+                                        <option value="Кібербезпека">Кібербезпека</option>
+                                        <option value="Розробка ПЗ">Розробка ПЗ</option>
+                                        <option value="Робототехніка">Робототехніка</option>
+                                        <option value="Data Science">Data Science</option>
+                                        <option value="Game Development">Game Development</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
                                     <label for="message" class="form-label">Розкажіть про ваші інтереси та досвід (необов'язково)</label>
-                                    <textarea class="form-control" id="message" rows="3"></textarea>
+                                    <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                                 </div>
+                                
+                                <!-- Loading spinner -->
+                                <div id="loadingSpinner" class="loading-spinner">
+                                    <div class="spinner"></div>
+                                    <p>Відправка заявки...</p>
+                                </div>
+                                
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary-custom btn-lg">Відправити заявку</button>
+                                    <button type="submit" class="btn btn-primary-custom btn-lg" id="submitBtn">Відправити заявку</button>
                                 </div>
                                 <p class="text-muted small mt-3">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
                             </form>
+                            
+                            <!-- Success message -->
+                            <div id="formSuccess" class="form-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <h4 class="mb-3">Заявка успішно відправлена!</h4>
+                                <p>Дякуємо за вашу заявку! Ми зв'яжемося з вами найближчим часом на вказану електронну пошту.</p>
+                                <button class="btn btn-outline-success mt-3" onclick="resetForm()">Надіслати ще одну заявку</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1008,8 +1248,8 @@
                         <li><a href="#home">Головна</a></li>
                         <li><a href="#about">Про ліцей</a></li>
                         <li><a href="#directions">Напрямки</a></li>
-                        <li><a href="#community">Спільнота</a></li>
                         <li><a href="#social">Соцмережа</a></li>
+                        <li><a href="#community">Спільнота</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -1027,7 +1267,7 @@
                     <ul>
                         <li><i class="bi bi-geo-alt me-2"></i> Київ, вул. Технологічна, 42</li>
                         <li><i class="bi bi-telephone me-2"></i> +380 (44) 123-45-67</li>
-                        <li><i class="bi bi-envelope me-2"></i> info@intita-lyceum.ua</li>
+                        <li><i class="bi bi-envelope me-2"></i> glavbkeycompany@gmail.com</li>
                         <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 - 18:00</li>
                     </ul>
                 </div>
@@ -1049,7 +1289,7 @@
     <!-- Custom JavaScript -->
     <script>
         // Theme Toggle Functionality
-        const themeToggle = document.getElementById('themeToggle');
+        const themeToggleFloating = document.getElementById('themeToggleFloating');
         const body = document.body;
         
         // Check for saved theme preference or respect OS preference
@@ -1058,11 +1298,11 @@
         // Apply saved theme
         if (savedTheme === 'dark') {
             body.classList.add('dark-theme');
-            themeToggle.checked = true;
+            themeToggleFloating.checked = true;
         }
         
-        // Theme toggle event
-        themeToggle.addEventListener('change', function() {
+        // Theme toggle event for floating header
+        themeToggleFloating.addEventListener('change', function() {
             if (this.checked) {
                 body.classList.add('dark-theme');
                 localStorage.setItem('theme', 'dark');
@@ -1071,6 +1311,62 @@
                 localStorage.setItem('theme', 'light');
             }
         });
+        
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const menu = document.querySelector('.menu');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                menu.classList.toggle('active');
+                this.classList.toggle('active');
+            });
+        }
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (menu.classList.contains('active') && 
+                !menu.contains(e.target) && 
+                !mobileMenuBtn.contains(e.target)) {
+                menu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            });
+        });
+        
+        // Active menu item on scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.menu a');
+        
+        function highlightMenuOnScroll() {
+            let scrollY = window.pageYOffset;
+            
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 150;
+                const sectionId = section.getAttribute('id');
+                
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${sectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', highlightMenuOnScroll);
         
         // Back to top button functionality
         const backToTopButton = document.getElementById('backToTop');
@@ -1087,24 +1383,76 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         
-        // Form submission
+        // EmailJS Form Submission
         document.getElementById('joinForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Get form values
             const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const interest = document.getElementById('interest').value;
             
             // Simple validation
-            if (firstName && email && interest) {
-                // In a real application, you would send data to a server here
-                alert(`Дякуємо, ${firstName}! Ваша заявка прийнята. Ми зв'яжемося з вами на пошту ${email} для подальших інструкцій.`);
+            if (firstName && lastName && email && interest) {
+                // Show loading spinner
+                const loadingSpinner = document.getElementById('loadingSpinner');
+                const submitBtn = document.getElementById('submitBtn');
+                const formSuccess = document.getElementById('formSuccess');
                 
-                // Reset form
-                document.getElementById('joinForm').reset();
+                loadingSpinner.classList.add('show');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = 'Відправка...';
+
+                emailjs.sendForm('service_ebpsf79', 'template_8o9mk7a', this)
+                    .then(function(response) {
+                        console.log('SUCCESS!', response.status, response.text);
+                        
+                        // Hide loading spinner
+                        loadingSpinner.classList.remove('show');
+                        
+                        // Show success message
+                        formSuccess.classList.add('show');
+                        
+                        // Scroll to success message
+                        setTimeout(() => {
+                            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                        
+                        // Reset form
+                        setTimeout(() => {
+                            document.getElementById('joinForm').reset();
+                        }, 500);
+                        
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                        
+                        // Hide loading spinner
+                        loadingSpinner.classList.remove('show');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = 'Відправити заявку';
+                        
+                        // Show error message
+                        alert('Помилка при відправці заявки. Спробуйте ще раз або зв\'яжіться з нами напряму.');
+                    });
+            } else {
+                alert('Будь ласка, заповніть обов\'язкові поля: Ім\'я, Прізвище, Email та Напрямок');
             }
         });
+        
+        // Function to reset form
+        function resetForm() {
+            const formSuccess = document.getElementById('formSuccess');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            formSuccess.classList.remove('show');
+            document.getElementById('joinForm').reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Відправити заявку';
+            
+            // Scroll back to form
+            document.getElementById('joinForm').scrollIntoView({ behavior: 'smooth' });
+        }
         
         // Scroll animations
         const observerOptions = {
@@ -1136,17 +1484,9 @@
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     window.scrollTo({
-                        top: targetElement.offsetTop - 80,
+                        top: targetElement.offsetTop - 120,
                         behavior: 'smooth'
                     });
-                    
-                    // Close mobile navbar if open
-                    const navbarToggler = document.querySelector('.navbar-toggler');
-                    const navbarCollapse = document.querySelector('.navbar-collapse');
-                    
-                    if (navbarCollapse.classList.contains('show')) {
-                        navbarToggler.click();
-                    }
                 }
             });
         });
@@ -1169,13 +1509,15 @@
             lazyImages.forEach(img => imageObserver.observe(img));
         });
         
-        // Navbar background on scroll
+        // Floating header scroll effect
         window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
+            const floatingHeader = document.querySelector('.floating-header');
             if (window.pageYOffset > 50) {
-                navbar.classList.add('navbar-scrolled');
+                floatingHeader.style.transform = 'translateX(-50%) translateY(-10px)';
+                floatingHeader.style.opacity = '0.95';
             } else {
-                navbar.classList.remove('navbar-scrolled');
+                floatingHeader.style.transform = 'translateX(-50%) translateY(0)';
+                floatingHeader.style.opacity = '1';
             }
         });
     </script>
