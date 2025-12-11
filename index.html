@@ -10,15 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <!-- CSS -->
-    <link rel="stylesheet" href="styles.css">
-    <script>
-        // Ініціалізація EmailJS
-        (function() {
-            emailjs.init("x3U6birXPY5hF879v"); 
-        })();
-    </script>
-    <!-- Custom CSS -->
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -60,366 +51,141 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-color);
-            line-height: 1.6;
-            overflow-x: hidden;
             background-color: var(--bg-color);
+            padding-top: 80px;
+            line-height: 1.6;
         }
         
-        /* ПЛАВАЮЧИЙ ХЕДЕР (оновлений стиль) */
-        .floating-header {
+        /* ПЛАВАЮЧИЙ ХЕДЕР С BOOTSTRAP */
+        .navbar-custom {
             position: fixed;
             top: 25px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
             max-width: 1200px;
-            z-index: 9999;
-            border-radius: 14px;
-            overflow: hidden;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .dark-theme .floating-header .header-inner {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
-        }
-        
-        .floating-header .header-inner {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 14px;
-            padding: 12px 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: 12px 25px;
             box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1030;
         }
         
-        .logo {
+        .dark-theme .navbar-custom {
+            background: rgba(0, 0, 0, 0.85);
+        }
+        
+        .navbar-brand {
             font-weight: 800;
             font-size: 1.5rem;
-            color: var(--accent-color);
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
+            color: var(--accent-color) !important;
         }
         
-        .logo i {
+        .navbar-brand i {
             margin-right: 10px;
-            font-size: 1.3rem;
         }
         
-        .logo span {
+        .navbar-brand span {
             color: var(--text-color);
         }
         
-        .menu {
-            display: flex;
-            gap: 25px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .menu a {
-            color: var(--text-color);
-            text-decoration: none;
+        .navbar-nav .nav-link {
+            color: var(--text-color) !important;
             font-weight: 500;
-            transition: all 0.3s ease;
             padding: 8px 15px;
             border-radius: 8px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
         }
         
-        .menu a:hover, .menu a.active {
-            color: var(--accent-color);
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: var(--accent-color) !important;
             background-color: rgba(26, 188, 156, 0.1);
             transform: translateY(-2px);
         }
         
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .header-icons i {
-            font-size: 1.25rem;
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        
-        .header-icons i:hover {
-            color: var(--accent-color);
-            background-color: rgba(26, 188, 156, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        /* Перемикач теми для плаваючого хедера */
-        .theme-toggle-floating {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            border: 2px solid var(--border-color);
-            overflow: hidden;
-        }
-        
-        .theme-toggle-floating:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px var(--shadow-color);
-            border-color: var(--accent-color);
-        }
-        
-        .theme-toggle-floating input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-            position: absolute;
-        }
-        
-        .theme-toggle-content-floating {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .theme-icon-wrapper-floating {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            opacity: 0;
-            transform: scale(0.5);
-        }
-        
-        .sun-icon-wrapper-floating {
-            opacity: 1;
-            transform: scale(1);
-        }
-        
-        .moon-icon-wrapper-floating {
-            transform: rotate(-180deg);
-        }
-        
-        input:checked ~ .theme-toggle-content-floating .sun-icon-wrapper-floating {
-            opacity: 0;
-            transform: scale(0.5) rotate(180deg);
-        }
-        
-        input:checked ~ .theme-toggle-content-floating .moon-icon-wrapper-floating {
-            opacity: 1;
-            transform: scale(1) rotate(0);
-        }
-        
-        .theme-icon-floating {
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-        
-        .sun-icon-floating {
-            color: #f39c12;
-            filter: drop-shadow(0 0 3px rgba(243, 156, 18, 0.3));
-        }
-        
-        .moon-icon-floating {
-            color: #f1c40f;
-            filter: drop-shadow(0 0 3px rgba(241, 196, 15, 0.3));
-        }
-
-        body.dark-theme input,
-        body.dark-theme select,
-        body.dark-theme textarea {
-            color: var(--text-color) !important;
-            background-color: var(--card-bg) !important;
-            border-color: var(--border-color) !important;
-        }
-
-        /* Плейсхолдеры */
-        body.dark-theme input::placeholder,
-        body.dark-theme textarea::placeholder,
-        body.dark-theme select::placeholder {
-            color: rgba(230, 238, 246, 0.6) !important;
-        }
-
-        /* Текст над полями (label или span над формой) */
-        body.dark-theme .form-label,
-        body.dark-theme label,
-        body.dark-theme .label-text {
-            color: var(--text-color) !important;
-        }
-
-        /* Заголовки секции */
-        body.dark-theme h2,
-        body.dark-theme h3,
-        body.dark-theme p {
-            color: var(--text-color) !important;
-        }
-
-
-        
-        /* Кнопка мобільного меню - ИСПРАВЛЕНО */
-        .mobile-menu-btn {
-            display: none;
-            font-size: 1.5rem;
-            color: var(--text-color);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            background: none;
-            border: none;
-        }
-        
-        .mobile-menu-btn:hover {
-            color: var(--accent-color);
-            background-color: rgba(26, 188, 156, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        /* Кнопка "Приєднатися" для десктопу */
+        /* Кнопка Join для десктопа */
         .join-btn-desktop {
-            background-color: var(--accent-color);
+            background-color: var(--accent-color) !important;
             border: none;
-            padding: 10px 24px;
+            padding: 8px 20px;
             font-weight: 600;
             border-radius: 25px;
+            color: white !important;
+            margin-left: 10px;
             transition: all 0.3s ease;
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
         }
         
         .join-btn-desktop:hover {
-            background-color: #16a085;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px var(--shadow-color);
-            color: white;
+            background-color: #16a085 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-color);
         }
         
-        /* Адаптивність */
-        @media (max-width: 992px) {
-            .menu {
-                gap: 15px;
-            }
-            
-            .menu a {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .logo {
-                font-size: 1.3rem;
-            }
-            
-            .theme-toggle-floating {
-                width: 45px;
-                height: 45px;
-            }
+        /* Переключатель темы */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s ease;
         }
         
-        @media (max-width: 768px) {
-            .floating-header {
-                top: 15px;
-                width: 95%;
-            }
-            
-            .header-inner {
-                padding: 10px 20px;
-            }
-            
-            .menu {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--card-bg);
-                flex-direction: column;
-                padding: 20px;
-                border-radius: 14px;
-                margin-top: 10px;
-                box-shadow: 0 10px 30px var(--shadow-color);
-                border: 1px solid var(--border-color);
-                z-index: 1000;
-                width: 100%;
-            }
-            
-            .menu.active {
-                display: flex;
-                animation: slideDown 0.3s ease;
-            }
-            
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            .menu a {
-                padding: 12px 20px;
-                text-align: center;
-                border-radius: 10px;
-                margin: 5px 0;
-                background: var(--navbar-bg);
-                border: 1px solid var(--border-color);
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .join-btn-desktop {
-                display: none;
-            }
-            
-            .logo span {
-                display: none;
-            }
-            
-            .header-icons {
-                gap: 15px;
-            }
+        .theme-toggle:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
         }
         
-        /* Відступ для контенту під фіксованим хедером */
-        body {
-            padding-top: 100px;
+        .theme-toggle i {
+            font-size: 1.1rem;
+            color: var(--text-color);
         }
         
-        @media (max-width: 768px) {
-            body {
-                padding-top: 90px;
-            }
+        /* Бургер кнопка Bootstrap */
+        .navbar-toggler {
+            border: 2px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: var(--card-bg);
         }
         
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        /* Fix for burger menu in dark theme */
+        .dark-theme .navbar-toggler {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        
+        .dark-theme .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.9)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        .navbar-toggler-icon {
+            width: 1.5em;
+            height: 1.5em;
+        }
+        
+        /* Hero Section */
         .hero-section {
             background: linear-gradient(135deg, var(--primary-color) 0%, #4a6fa5 100%);
             color: white;
             padding: 80px 0 100px;
+            margin-top: -80px;
+            padding-top: 160px;
             position: relative;
             overflow: hidden;
-            margin-top: -100px;
-            padding-top: 180px;
         }
         
         .dark-theme .hero-section {
@@ -453,32 +219,15 @@
             font-size: 3.5rem;
             font-weight: 800;
             margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease-out;
         }
         
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
-            animation: fadeInUp 1s ease-out 0.3s both;
+            opacity: 0.9;
         }
         
-        .btn-primary-custom {
-            background-color: var(--accent-color);
-            border: none;
-            padding: 12px 30px;
-            font-weight: 600;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 0.6s both;
-            color: white;
-        }
-        
-        .btn-primary-custom:hover {
-            background-color: #16a085;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px var(--shadow-color);
-        }
-        
+        /* Section Title */
         .section-title {
             font-weight: 700;
             color: var(--primary-color);
@@ -493,12 +242,14 @@
             height: 4px;
             background-color: var(--accent-color);
             bottom: -10px;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
         
+        /* Feature Cards */
         .feature-card {
             background: var(--card-bg);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 30px;
             height: 100%;
             box-shadow: 0 5px 15px var(--shadow-color);
@@ -517,14 +268,16 @@
             margin-bottom: 1.5rem;
         }
         
+        /* Direction Cards */
         .direction-card {
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px var(--shadow-color);
             transition: all 0.3s ease;
             height: 100%;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
+            cursor: pointer;
         }
         
         .direction-card:hover {
@@ -533,62 +286,31 @@
         }
         
         .direction-img {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
         }
         
         .direction-content {
             padding: 25px;
-            background: var(--card-bg);
         }
         
-        /* БАДЖИ ДЛЯ ТЕМНОЇ ТЕМИ - ДОБАВЛЕНО БІЛУ ОБВОДКУ */
-        .dark-theme .badge.bg-purple {
-            border: 1px solid rgba(255, 255, 255, 0.3);
+        /* Badge styles */
+        .badge {
+            padding: 6px 12px;
+            font-weight: 600;
+            border-radius: 20px;
         }
         
-        .badge.bg-purple {
-            background-color: #9b59b6 !important;
-            border: 1px solid transparent;
+        .bg-purple {
+            background-color: #6f42c1;
         }
         
-        /* Додамо білу обводку для всіх баджів у темній темі */
-        .dark-theme .badge {
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .community-section {
-            background-color: var(--light-color);
-            padding: 100px 0;
-        }
-        
-        .dark-theme .community-section {
-            background-color: #1a1a1a;
-        }
-        
-        .testimonial-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .testimonial-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-        }
-        
+        /* Social Network Section */
         .social-network-showcase {
             background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             color: white;
             padding: 100px 0;
-            border-radius: 0;
         }
         
         .dark-theme .social-network-showcase {
@@ -608,62 +330,94 @@
             transform: translateX(10px);
         }
         
+        /* Community Section */
+        .community-section {
+            background-color: var(--light-color);
+            padding: 100px 0;
+        }
+        
+        .dark-theme .community-section {
+            background-color: #1a1a1a;
+        }
+        
+        .testimonial-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .testimonial-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            border: 4px solid var(--accent-color);
+        }
+        
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--accent-color);
+        }
+        
+        /* Footer */
         .footer {
-            padding: 30px 0 20px;
             background: var(--footer-bg);
-            color: var(--text-color);
-            font-size: 14px;
+            color: white;
+            padding: 40px 0 20px;
         }
-
-        .footer h5 {
-            font-size: 17px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .footer p,
-        .footer li {
-            margin-bottom: 6px;
-        }
-
-        .footer ul li {
-            opacity: 0.85;
-        }
-
-        .footer-extra p {
-            font-size: 13px;
-            opacity: 0.7;
-        }
-
-        .footer .copyright p {
-            font-size: 12.5px;
-            opacity: 0.55;
-            margin: 0;
-        }
-
-        /* Тёмная тема */
-        body.dark-theme .footer {
+        
+        .dark-theme .footer {
             background: #0c0f11 !important;
             color: #e4e9ee !important;
         }
-
+        
+        .footer h5 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer ul li {
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .footer ul li i {
+            width: 20px;
+            margin-right: 10px;
+        }
         
         .copyright {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 20px;
             margin-top: 40px;
             text-align: center;
-            color: #aaa;
+            opacity: 0.7;
         }
         
         /* Form Elements */
-        .form-control, .form-select, .form-control:focus, .form-select:focus {
+        .form-control, .form-select {
             background-color: var(--card-bg);
             color: var(--text-color);
             border-color: var(--border-color);
+            padding: 12px 15px;
+            border-radius: 8px;
         }
         
         .form-control:focus, .form-select:focus {
+            border-color: var(--accent-color);
             box-shadow: 0 0 0 0.25rem rgba(26, 188, 156, 0.25);
         }
         
@@ -672,57 +426,143 @@
             border-color: var(--border-color);
         }
         
-        .text-muted {
-            color: #6c757d !important;
+        .btn-primary-custom {
+            background-color: var(--accent-color);
+            border: none;
+            padding: 12px 30px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            color: white;
         }
         
+        .btn-primary-custom:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+        
+        /* Dark Theme Text Fixes */
+        .dark-theme .hero-section,
+        .dark-theme .hero-section h1,
+        .dark-theme .hero-section p,
+        .dark-theme .hero-section .hero-title,
+        .dark-theme .hero-section .hero-subtitle,
+        .dark-theme .hero-section .card,
+        .dark-theme .hero-section .card *:not(.btn) {
+            color: #ffffff !important;
+        }
+        
+        .dark-theme .navbar-nav .nav-link {
+            color: #e0e0e0 !important;
+        }
+        
+        .dark-theme .navbar-nav .nav-link:hover,
+        .dark-theme .navbar-nav .nav-link.active {
+            color: var(--accent-color) !important;
+        }
+        
+        .dark-theme #join,
+        .dark-theme #join .card,
+        .dark-theme #join .card *:not(.btn):not(.badge) {
+            color: var(--text-color) !important;
+        }
+        
+        .dark-theme .form-label,
         .dark-theme .text-muted {
-            color: #adb5bd !important;
+            color: #b0b0b0 !important;
         }
         
-        #backToTop {
-            padding: 0 !important;          /* убираем лишний отступ Bootstrap */
-            display: flex !important;       /* центрируем иконку */
-            justify-content: center !important;
-            align-items: center !important;
+        .dark-theme .badge {
+            color: #ffffff !important;
         }
-
-        /* Центровка иконки */
-        #backToTop i {
-            line-height: 1 !important;
-            font-size: 20px;                /* можно менять */
+        
+        /* Modal Gallery */
+        .modal-content.bg-dark {
+            background-color: #1e1e1e !important;
+            border: 1px solid #333;
         }
-
-        .direction-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: 0.3s;
+        
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin: 0 20px;
         }
-
-        .direction-card:hover {
-            transform: translateY(-5px);
-        }       
-
-        .direction-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            display: block;
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .navbar-custom {
+                padding: 8px 15px;
+                width: 95%;
+                top: 15px;
+            }
+            
+            .navbar-collapse {
+                background: var(--card-bg);
+                border-radius: 14px;
+                padding: 20px;
+                margin-top: 10px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 10px 30px var(--shadow-color);
+            }
+            
+            .navbar-nav .nav-link {
+                margin: 5px 0;
+                padding: 12px 15px;
+                text-align: center;
+            }
+            
+            .join-btn-desktop {
+                display: none !important;
+            }
+            
+            .navbar-brand span {
+                display: none;
+            }
+            
+            body {
+                padding-top: 70px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
         }
-
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .testimonial-img {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .profile-img {
+                width: 60px;
+                height: 60px;
+            }
+        }
+        
         /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
@@ -734,279 +574,151 @@
             transform: translateY(0);
         }
         
-        /* Success message after form submission */
-        .form-success {
-            display: none;
-            background-color: rgba(46, 204, 113, 0.1);
-            border: 1px solid #2ecc71;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .form-success.show {
-            display: block;
-            animation: fadeInUp 0.5s ease-out;
-        }
-        
-        .form-success i {
-            font-size: 3rem;
-            color: #2ecc71;
-            margin-bottom: 15px;
-        }
-        
-        /* Loading spinner */
-        .loading-spinner {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .loading-spinner.show {
-            display: block;
-        }
-        
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
+        /* Back to Top Button */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border-top: 4px solid var(--accent-color);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
         
-        .dark-theme .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid var(--accent-color);
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Optimizations */
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-        
-        .lazy-load {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        
-        .lazy-loaded {
-            opacity: 1;
-        }
-
-        .dark-theme {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #1abc9c;
-            --light-color: #2c3e50;
-            --dark-color: #ecf0f1;
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --card-bg: #1e1e1e;
-            --footer-bg: #0d1117;
-            --navbar-bg: #1a1a1a;
-            --border-color: #333;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-            }
-
-        /* Додаткові адаптивні стилі */
-        @media (max-width: 576px) {
-            .hero-title {
-                font-size: 2.2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .btn-primary-custom {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-            
-            .theme-toggle-floating {
-                width: 40px;
-                height: 40px;
-            }
-            
-            .theme-icon-floating {
-                font-size: 1rem;
-            }
-            
-            .mobile-menu-btn {
-                font-size: 1.3rem;
-                padding: 6px;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .floating-header {
-                width: 97%;
-                top: 10px;
-            }
-            
-            .header-inner {
-                padding: 8px 15px;
-            }
-            
-            .logo {
-                font-size: 1.1rem;
-            }
-            
-            .header-icons {
-                gap: 10px;
-            }
-            
-            .mobile-menu-btn {
-                font-size: 1.2rem;
-                margin-left: 5px;
-            }
+        #backToTop:hover {
+            background-color: #16a085;
+            transform: translateY(-3px);
         }
     </style>
+    <script>
+        // Ініціалізація EmailJS
+        (function() {
+            emailjs.init("x3U6birXPY5hF879v"); 
+        })();
+    </script>
 </head>
 <body>
-    <!-- ПЛАВАЮЧИЙ ХЕДЕР -->
-    <nav class="floating-header">
-        <div class="header-inner">
-            <div class="logo">
+    <!-- НАВБАР С BOOTSTRAP БУРГЕРОМ -->
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <!-- Логотип -->
+            <a class="navbar-brand" href="#home">
                 <i class="bi bi-cpu-fill"></i>
                 INTITA<span> Ліцей</span>
-            </div>
-
-            <ul class="menu">
-                <li><a href="#home" class="active">Головна</a></li>
-                <li><a href="#about">Про ліцей</a></li>
-                <li><a href="#directions">Напрямки</a></li>
-                <li><a href="#social">Соцмережа</a></li>
-                <li><a href="#community">Спільнота</a></li>
-            </ul>
-
-            <div class="header-icons">
-                <!-- Кнопка "Приєднатися" для десктопу -->
-                <a href="#join" class="join-btn-desktop">Приєднатися</a>
+            </a>
+            
+            <!-- Бургер кнопка -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Меню -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Головна</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Про ліцей</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#directions">Напрямки</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#social">Соцмережа</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#community">Спільнота</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#join">Приєднатися</a>
+                    </li>
+                </ul>
                 
-                <!-- Перемикач теми -->
-                <label class="theme-toggle-floating">
-                    <input type="checkbox" id="themeToggleFloating">
-                    <div class="theme-toggle-content-floating">
-                        <div class="theme-icon-wrapper-floating sun-icon-wrapper-floating">
-                            <i class="bi bi-sun-fill theme-icon-floating sun-icon-floating"></i>
-                        </div>
-                        <div class="theme-icon-wrapper-floating moon-icon-wrapper-floating">
-                            <i class="bi bi-moon-fill theme-icon-floating moon-icon-floating"></i>
-                        </div>
+                <!-- Правая часть -->
+                <div class="d-flex align-items-center">
+                    <!-- Кнопка Join для десктопа -->
+                    <a href="#join" class="btn join-btn-desktop d-none d-lg-inline-block">Приєднатися</a>
+                    
+                    <!-- Переключатель темы -->
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="bi bi-sun-fill" id="themeIcon"></i>
                     </div>
-                </label>
-                
-                <!-- Кнопка мобільного меню - ИСПРАВЛЕНО -->
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <i class="bi bi-list"></i>
-                </button>
+                </div>
             </div>
         </div>
     </nav>
 
-   <!-- Hero Section -->
-<section id="home" class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
-            
-            <!-- LEFT TEXT -->
-            <div class="col-lg-6 hero-content">
-                <h1 class="hero-title">Технологічний ліцей INTITA</h1>
-                <p class="hero-subtitle">
-                    Соціальна мережа для юних інноваторів та дослідників. 
-                    Місце, де народжуються технології майбутнього.
-                </p>
-                <div class="d-flex flex-wrap gap-3">
-                    <a href="#directions" class="btn btn-primary-custom">Дізнатися більше</a>
-                    <a href="#join" class="btn btn-outline-light btn-lg rounded-pill">Приєднатися до спільноти</a>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="hero-title">Технологічний ліцей INTITA</h1>
+                    <p class="hero-subtitle">
+                        Соціальна мережа для юних інноваторів та дослідників. 
+                        Місце, де народжуються технології майбутнього.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="#directions" class="btn btn-primary-custom">Дізнатися більше</a>
+                        <a href="#join" class="btn btn-outline-light btn-lg rounded-pill">Приєднатися до спільноти</a>
+                    </div>
                 </div>
-            </div>
-
-            <!-- RIGHT CARDS WITH PHOTOS -->
-            <div class="col-lg-6 mt-5 mt-lg-0">
-                <div class="position-relative">
-                    <div class="rounded-3 p-4 shadow-lg" 
-                         style="background-color: var(--card-bg); animation: fadeInUp 1s ease-out 0.9s both;">
-                        
-                        <!-- Fake Window Buttons -->
-                        <div class="d-flex mb-3">
-                            <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
-                            <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
-                            <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
-                        </div>
-
-                        <!-- CARD 1 -->
-                        <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
-                            <div class="d-flex align-items-center mb-2">
-
-                                <!-- АВАТАР -->
-                                <img src="img/people/Олексій Технолог.jpg"
-                                     alt="Олексій"
-                                     class="rounded-circle me-2"
-                                     style="width: 50px; height: 50px; object-fit: cover;">
-
-                                <div>
-                                    <div class="fw-bold" style="color: var(--text-color);">Олексій Технолог</div>
-                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">
-                                        Представив новий проект: "Розумне місто"
+                <div class="col-lg-6 mt-5 mt-lg-0">
+                    <div class="card border-0 shadow-lg fade-in">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                <div class="rounded-circle bg-danger me-2" style="width: 12px; height: 12px;"></div>
+                                <div class="rounded-circle bg-warning me-2" style="width: 12px; height: 12px;"></div>
+                                <div class="rounded-circle bg-success" style="width: 12px; height: 12px;"></div>
+                            </div>
+                            
+                            <!-- Card 1 -->
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="img/people/Олексій Технолог.jpg" class="profile-img me-3" alt="Олексій Технолог">
+                                    <div>
+                                        <div class="fw-bold">Олексій Технолог</div>
+                                        <small class="text-muted">Представив новий проект: "Розумне місто"</small>
                                     </div>
                                 </div>
+                                <p class="mb-0">Розробив систему автоматизованого управління вуличним освітленням з ШІ.</p>
                             </div>
-                            <p class="mb-0" style="color: var(--text-color);">
-                                Розробив систему автоматизованого управління вуличним освітленням з ШІ.
-                            </p>
-                        </div>
-
-                        <!-- CARD 2 -->
-                        <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
-                            <div class="d-flex align-items-center mb-2">
-
-                                <!-- АВАТАР -->
-                                <img src="img/people/Марія Іноватор.jpeg"
-                                     alt="Марія"
-                                     class="rounded-circle me-2"
-                                     style="width: 50px; height: 50px; object-fit: cover;">
-
-                                <div>
-                                    <div class="fw-bold" style="color: var(--text-color);">Марія Іноватор</div>
-                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">
-                                        Поділилася досягненням
+                            
+                            <!-- Card 2 -->
+                            <div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="img/people/Марія Іноватор.jpeg" class="profile-img me-3" alt="Марія Іноватор">
+                                    <div>
+                                        <div class="fw-bold">Марія Іноватор</div>
+                                        <small class="text-muted">Поділилася досягненням</small>
                                     </div>
                                 </div>
+                                <p class="mb-0">Створила чат-бота для вивчення математики. Код доступний всім!</p>
                             </div>
-                            <p class="mb-0" style="color: var(--text-color);">
-                                Створила чат-бота для вивчення математики. Код доступний всім!
-                            </p>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
-    </div>
-</section>
-
+    </section>
 
     <!-- About Section -->
     <section id="about" class="py-5">
         <div class="container py-5">
             <h2 class="section-title text-center">Наша місія</h2>
-            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Ми об'єднуємо талановиту молодь, яка прагне змінювати світ технологіями. Наша мета - створити середовище для розвитку інноваційного мислення та надати ресурси для реалізації амбітних проектів.</p>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">
+                Ми об'єднуємо талановиту молодь, яка прагне змінювати світ технологіями. 
+                Наша мета - створити середовище для розвитку інноваційного мислення та надати ресурси для реалізації амбітних проектів.
+            </p>
             
             <div class="row g-4">
                 <div class="col-lg-4 col-md-6">
@@ -1040,90 +752,114 @@
         </div>
     </section>
 
-<!-- Directions Section -->
-<section id="directions" class="py-5" style="background-color: var(--light-color);">
-    <div class="container py-5">
-        <h2 class="section-title text-center">Технологічні напрямки</h2>
-        <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">
-            Ми пропонуємо сучасні освітні напрямки, які відповідають вимогам ринку та дозволяють реалізувати свій потенціал.
-        </p>
+    <!-- Directions Section -->
+    <section id="directions" class="py-5" style="background-color: var(--light-color);">
+        <div class="container py-5">
+            <h2 class="section-title text-center">Технологічні напрямки</h2>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">
+                Ми пропонуємо сучасні освітні напрямки, які відповідають вимогам ринку та дозволяють реалізувати свій потенціал.
+            </p>
 
-        <div class="row g-4">
+            <div class="row g-4">
+                <!-- AI -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('ai')">
+                        <img src="img/ai1.jpg" class="direction-img" alt="Штучний інтелект та ML">
+                        <div class="direction-content">
+                            <h4>Штучний інтелект та ML</h4>
+                            <p>Машинне навчання, нейронні мережі та інтелектуальні системи.</p>
+                            <span class="badge bg-purple">Популярно</span>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- AI -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('ai')" style="cursor: pointer;">
-                    <img src="img/ai1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Штучний інтелект та ML</h4>
-                        <p>Машинне навчання, нейронні мережі та інтелектуальні системи.</p>
+                <!-- Cyber -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('cyber')">
+                        <img src="img/cyber1.jpg" class="direction-img" alt="Кібербезпека">
+                        <div class="direction-content">
+                            <h4>Кібербезпека</h4>
+                            <p>Захист систем, виявлення вразливостей та протидія атакам.</p>
+                            <span class="badge bg-danger">Високий попит</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dev -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('dev')">
+                        <img src="img/dev1.jpg" class="direction-img" alt="Розробка ПЗ">
+                        <div class="direction-content">
+                            <h4>Розробка ПЗ</h4>
+                            <p>Створення веб-сайтів, мобільних додатків та програм.</p>
+                            <span class="badge bg-success">Працевлаштування</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Robotics -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('robo')">
+                        <img src="img/robo1.jpg" class="direction-img" alt="Робототехніка">
+                        <div class="direction-content">
+                            <h4>Робототехніка</h4>
+                            <p>Роботи, електроніка та автоматизація.</p>
+                            <span class="badge bg-info">Інновації</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Science -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('data')">
+                        <img src="img/data1.jpg" class="direction-img" alt="Data Science">
+                        <div class="direction-content">
+                            <h4>Data Science</h4>
+                            <p>Аналіз даних, прогнозування та візуалізація.</p>
+                            <span class="badge bg-warning">Перспективно</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Dev -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="direction-card fade-in" onclick="openGallery('game')">
+                        <img src="img/game1.jpg" class="direction-img" alt="Game Development">
+                        <div class="direction-content">
+                            <h4>Game Development</h4>
+                            <p>Ігрові рушії, графіка та геймдизайн.</p>
+                            <span class="badge bg-primary">Креатив</span>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Cyber -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('cyber')" style="cursor: pointer;">
-                    <img src="img/cyber1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Кібербезпека</h4>
-                        <p>Захист систем, виявлення вразливостей та протидія атакам.</p>
+    <!-- Modal Gallery -->
+    <div class="modal fade" id="galleryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content bg-dark">
+                <div class="modal-body p-0">
+                    <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="gallerySlides"></div>
+                        
+                        <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <!-- Dev -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('dev')" style="cursor: pointer;">
-                    <img src="img/dev1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Розробка ПЗ</h4>
-                        <p>Створення веб-сайтів, мобільних додатків та програм.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Robotics -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('robo')" style="cursor: pointer;">
-                    <img src="img/robo1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Робототехніка</h4>
-                        <p>Роботи, електроніка та автоматизація.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Data Science -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('data')" style="cursor: pointer;">
-                    <img src="img/data1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Data Science</h4>
-                        <p>Аналіз даних, прогнозування та візуалізація.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Game Dev -->
-            <div class="col-lg-4 col-md-6">
-                <div class="direction-card fade-in" onclick="openGallery('game')" style="cursor: pointer;">
-                    <img src="img/game1.jpg" class="direction-img">
-                    <div class="direction-content">
-                        <h4>Game Development</h4>
-                        <p>Ігрові рушії, графіка та геймдизайн.</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
-</section>
 
     <!-- Social Network Section -->
     <section id="social" class="social-network-showcase">
         <div class="container py-5">
-            <h2 class="text-center mb-5" style="color: white;">Соціальна мережа для інноваторів</h2>
+            <h2 class="text-center mb-5 display-4 fw-bold">Соціальна мережа для інноваторів</h2>
             
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -1141,55 +877,59 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="rounded-3 p-4 shadow-lg mt-5 mt-lg-0 fade-in" style="background-color: var(--card-bg);">
-                        <div class="d-flex mb-3">
-                            <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
-                            <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
-                            <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
-                        </div>
-                        <div class="mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; color: white;">
-                                    <i class="bi bi-person-fill"></i>
+                    <div class="card border-0 shadow-lg fade-in">
+                        <div class="card-body p-4">
+                            <div class="d-flex mb-3">
+                                <div class="rounded-circle bg-danger me-2" style="width: 12px; height: 12px;"></div>
+                                <div class="rounded-circle bg-warning me-2" style="width: 12px; height: 12px;"></div>
+                                <div class="rounded-circle bg-success" style="width: 12px; height: 12px;"></div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3" 
+                                         style="width: 50px; height: 50px;">
+                                        <i class="bi bi-person-fill text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">Ваш профіль</div>
+                                        <small class="text-muted">Рівень: Інноватор | Проектів: 3</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="fw-bold">Новини спільноти</div>
+                                    <span class="badge bg-primary">5 нових</span>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                        <div>Марія запустила новий проект "EcoTracker"</div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                        <div>Завтра вебінар з машинного навчання</div>
+                                    </div>
                                 </div>
                                 <div>
-                                    <div class="fw-bold" style="color: var(--text-color);">Ваш профіль</div>
-                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">Рівень: Інноватор | Проектів: 3</div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
+                                        <div>Новий хакатон з кібербезпеки</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <div class="fw-bold" style="color: var(--text-color);">Новини спільноти</div>
-                                <span class="badge bg-primary">5 нових</span>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
-                                    <div style="color: var(--text-color);">Марія запустила новий проект "EcoTracker"</div>
-                                </div>
-                            </div>
-                            <div class="mb-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
-                                    <div style="color: var(--text-color);">Завтра вебінар з машинного навчання</div>
-                                </div>
-                            </div>
+                            
                             <div>
-                                <div class="d-flex align-items-center">
-                                    <div class="rounded-circle bg-success me-2" style="width: 8px; height: 8px;"></div>
-                                    <div style="color: var(--text-color);">Новий хакатон з кібербезпеки</div>
+                                <div class="fw-bold mb-2">Активні проекти</div>
+                                <div class="progress mb-2" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 75%"></div>
                                 </div>
+                                <small class="text-muted">Ваш проект "AI Assistant" на 75% завершено</small>
                             </div>
-                        </div>
-                        
-                        <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
-                            <div class="fw-bold mb-2" style="color: var(--text-color);">Активні проекти</div>
-                            <div class="progress mb-2" style="height: 8px;">
-                                <div class="progress-bar bg-success" style="width: 75%"></div>
-                            </div>
-                            <div class="small" style="color: var(--text-color); opacity: 0.7;">Ваш проект "AI Assistant" на 75% завершено</div>
                         </div>
                     </div>
                 </div>
@@ -1201,15 +941,15 @@
     <section id="community" class="community-section">
         <div class="container py-5">
             <h2 class="section-title text-center">Наша спільнота</h2>
-            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Приєднуйся до тисячі талановитих студентів, які вже реалізують свої ідеї разом з нами.</p>
+            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">
+                Приєднуйся до тисячі талановитих студентів, які вже реалізують свої ідеї разом з нами.
+            </p>
             
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="testimonial-card fade-in">
                         <div class="text-center">
-                            <div class="rounded-circle bg-primary d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
-                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
-                            </div>
+                            <img src="img/people/Олексій Петренко.jpg" class="testimonial-img" alt="Олексій Петренко">
                             <h5>Олексій Петренко</h5>
                             <p class="text-muted">Розробник штучного інтелекту, 17 років</p>
                         </div>
@@ -1219,9 +959,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="testimonial-card fade-in">
                         <div class="text-center">
-                            <div class="rounded-circle bg-success d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
-                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
-                            </div>
+                            <img src="img/people/Марія Коваленко.jpg" class="testimonial-img" alt="Марія Коваленко">
                             <h5>Марія Коваленко</h5>
                             <p class="text-muted">Спеціаліст з кібербезпеки, 16 років</p>
                         </div>
@@ -1231,9 +969,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="testimonial-card fade-in">
                         <div class="text-center">
-                            <div class="rounded-circle bg-warning d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; color: white;">
-                                <i class="bi bi-person-fill" style="font-size: 2rem;"></i>
-                            </div>
+                            <img src="img/people/Дмитро Шевченко.jpg" class="testimonial-img" alt="Дмитро Шевченко">
                             <h5>Дмитро Шевченко</h5>
                             <p class="text-muted">Game Developer, 18 років</p>
                         </div>
@@ -1244,19 +980,19 @@
             
             <div class="text-center mt-5">
                 <div class="row justify-content-center">
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-3 col-md-6 mb-4">
                         <div class="display-4 fw-bold text-primary">1500+</div>
                         <div class="fs-5">Активних учасників</div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-3 col-md-6 mb-4">
                         <div class="display-4 fw-bold text-success">300+</div>
                         <div class="fs-5">Реалізованих проектів</div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-3 col-md-6 mb-4">
                         <div class="display-4 fw-bold text-warning">50+</div>
                         <div class="fs-5">Партнерських компаній</div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="col-lg-3 col-md-6 mb-4">
                         <div class="display-4 fw-bold text-info">20+</div>
                         <div class="fs-5">Менторів та експертів</div>
                     </div>
@@ -1271,14 +1007,17 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
                     <h2 class="section-title">Приєднуйся до нашої спільноти</h2>
-                    <p class="fs-5 mb-5">Не гав часу! Почни свій шлях у світ технологій разом з однодумцями. Заповни форму та отримай детальну інформацію про вступ до INTITA.</p>
+                    <p class="fs-5 mb-5">
+                        Не гав часу! Почни свій шлях у світ технологій разом з однодумцями. 
+                        Заповни форму та отримай детальну інформацію про вступ до INTITA.
+                    </p>
                     
                     <div class="card shadow-lg border-0 fade-in">
                         <div class="card-body p-5">
                             <form id="joinForm">
                                 <input type="hidden" name="form_type" value="intita_application">
                                 
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-md-6 mb-3">
                                         <label for="firstName" class="form-label">Ім'я</label>
                                         <input type="text" class="form-control form-control-lg" id="firstName" name="first_name" required>
@@ -1288,15 +1027,18 @@
                                         <input type="text" class="form-control form-control-lg" id="lastName" name="last_name" required>
                                     </div>
                                 </div>
-                                <div class="mb-3">
+                                
+                                <div class="mb-4">
                                     <label for="email" class="form-label">Електронна пошта</label>
                                     <input type="email" class="form-control form-control-lg" id="email" name="email" required>
                                 </div>
-                                <div class="mb-3">
+                                
+                                <div class="mb-4">
                                     <label for="phone" class="form-label">Номер телефону (необов'язково)</label>
                                     <input type="tel" class="form-control form-control-lg" id="phone" name="phone">
                                 </div>
-                                <div class="mb-3">
+                                
+                                <div class="mb-4">
                                     <label for="interest" class="form-label">Напрямок, що цікавить</label>
                                     <select class="form-select form-select-lg" id="interest" name="interest" required>
                                         <option value="" selected disabled>Оберіть напрямок</option>
@@ -1308,30 +1050,33 @@
                                         <option value="Game Development">Game Development</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
+                                
+                                <div class="mb-4">
                                     <label for="message" class="form-label">Розкажіть про ваші інтереси та досвід (необов'язково)</label>
                                     <textarea class="form-control" id="message" name="message" rows="3"></textarea>
                                 </div>
                                 
-                                <!-- Loading spinner -->
-                                <div id="loadingSpinner" class="loading-spinner">
-                                    <div class="spinner"></div>
-                                    <p>Відправка заявки...</p>
+                                <div id="loadingSpinner" class="text-center mb-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Завантаження...</span>
+                                    </div>
+                                    <p class="mt-2">Відправка заявки...</p>
+                                </div>
+                                
+                                <div id="formSuccess" class="alert alert-success" style="display: none;">
+                                    <i class="bi bi-check-circle-fill me-2"></i>
+                                    <strong>Заявка успішно відправлена!</strong>
+                                    <p class="mb-0 mt-2">Дякуємо за вашу заявку! Ми зв'яжемося з вами найближчим часом на вказану електронну пошту.</p>
                                 </div>
                                 
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-primary-custom btn-lg" id="submitBtn">Відправити заявку</button>
                                 </div>
-                                <p class="text-muted small mt-3">Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних</p>
+                                
+                                <p class="text-muted small mt-3">
+                                    Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних
+                                </p>
                             </form>
-                            
-                            <!-- Success message -->
-                            <div id="formSuccess" class="form-success">
-                                <i class="bi bi-check-circle-fill"></i>
-                                <h4 class="mb-3">Заявка успішно відправлена!</h4>
-                                <p>Дякуємо за вашу заявку! Ми зв'яжемося з вами найближчим часом на вказану електронну пошту.</p>
-                                <button class="btn btn-outline-success mt-3" onclick="resetForm()">Надіслати ще одну заявку</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1339,189 +1084,179 @@
         </div>
     </section>
 
-<footer class="footer">
-    <div class="container">
-        <div class="row justify-content-between align-items-start">
-
-            <!-- Левая колонка -->
-            <div class="col-lg-4 col-md-6 mb-4 text-center text-lg-start">
-                <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
-                <p>Майбутнє починається тут.</p>
-                <p>Освітній простір, де учні отримують сучасні знання, навички та можливості для розвитку у сфері ІТ.</p>
-                <p>Ми навчаємо мислити, створювати, впроваджувати технології майбутнього.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
+                    <p class="mt-3">Майбутнє починається тут. Освітній простір, де учні отримують сучасні знання, навички та можливості для розвитку у сфері ІТ.</p>
+                    <p>Ми навчаємо мислити, створювати, впроваджувати технології майбутнього.</p>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h5>Про нас</h5>
+                    <ul>
+                        <li>ІТ-освіта нового покоління</li>
+                        <li>Інноваційні підходи до навчання</li>
+                        <li>Підтримка талантів та розвиток навичок</li>
+                        <li>Партнерство з провідними компаніями</li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <h5>Контакти</h5>
+                    <ul>
+                        <li><i class="bi bi-geo-alt"></i> Вінниця, вул. Привокзальна, 38</li>
+                        <li><i class="bi bi-telephone"></i> +380 (68) 446-71-43</li>
+                        <li><i class="bi bi-envelope"></i> glavbkeycompany@gmail.com</li>
+                        <li><i class="bi bi-clock"></i> Пн-Пт: 9:00 – 18:00</li>
+                    </ul>
+                </div>
             </div>
-
-            <!-- Средняя колонка (заполняем пустое пространство) -->
-            <div class="col-lg-4 col-md-6 mb-4 text-center text-lg-start">
-                <h5>Про нас</h5>
-                <ul class="list-unstyled">
-                    <li>ІТ-освіта нового покоління</li>
-                    <li>Інноваційні підходи до навчання</li>
-                    <li>Підтримка талантів та розвиток навичок</li>
-                    <li>Партнерство з провідними компаніями</li>
-                </ul>
+            
+            <div class="text-center mt-2">
+                <p>Сайт створений учнями та викладачами INTITA з метою популяризації сучасної ІТ-освіти.</p>
             </div>
-
-            <!-- Правая колонка -->
-            <div class="col-lg-3 col-md-6 mb-4 text-center text-lg-start">
-                <h5>Контакти</h5>
-                <ul class="list-unstyled">
-                    <li><i class="bi bi-geo-alt me-2"></i> Вінниця, вул. Привокзальна, 38</li>
-                    <li><i class="bi bi-telephone me-2"></i> +380 (68) 446-71-43</li>
-                    <li><i class="bi bi-envelope me-2"></i> glavbkeycompany@gmail.com</li>
-                    <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 – 18:00</li>
-                </ul>
+            
+            <div class="copyright">
+                <p>&copy; 2025 Технологічний ліцей INTITA. Всі права захищені.</p>
             </div>
-
         </div>
-
-        <!-- Нижний текст -->
-        <div class="text-center mt-2 footer-extra">
-            <p>Сайт створений учнями та викладачами INTITA з метою популяризації сучасної ІТ-освіти.</p>
-        </div>
-
-        <div class="copyright text-center mt-1">
-            <p>&copy; 2025 Технологічний ліцей INTITA. Всі права захищені.</p>
-        </div>
-    </div>
-</footer>
-
+    </footer>
 
     <!-- Back to Top Button -->
-    <button id="backToTop" class="btn btn-primary-custom rounded-circle position-fixed" style="bottom: 30px; right: 30px; width: 50px; height: 50px; display: none;">
+    <button id="backToTop" class="btn">
         <i class="bi bi-arrow-up"></i>
     </button>
 
-    <!-- Bootstrap JS Bundle with Popper -->
+    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom JavaScript -->
+    <!-- JavaScript -->
     <script>
-        // Theme Toggle Functionality
-        const themeToggleFloating = document.getElementById('themeToggleFloating');
+        // Gallery Data - використовуємо ваші локальні фотографії
+        const galleryData = {
+            ai: ["img/ai1.jpg", "img/ai2.jpg", "img/ai3.jpg"],
+            cyber: ["img/cyber1.jpg", "img/cyber2.jpg", "img/cyber3.jpg"],
+            dev: ["img/dev1.jpg", "img/dev2.jpg", "img/dev3.jpg"],
+            robo: ["img/robo1.jpg", "img/robo2.jpg", "img/robo3.jpg"],
+            data: ["img/data1.jpg", "img/data2.jpg", "img/data3.jpg"],
+            game: ["img/game1.jpg", "img/game2.jpg", "img/game3.jpg"]
+        };
+
+        function openGallery(key) {
+            const slides = document.getElementById("gallerySlides");
+            slides.innerHTML = "";
+
+            galleryData[key].forEach((src, index) => {
+                slides.innerHTML += `
+                    <div class="carousel-item ${index === 0 ? "active" : ""}">
+                        <img src="${src}" class="d-block w-100" style="max-height: 90vh; object-fit: contain;">
+                    </div>
+                `;
+            });
+
+            new bootstrap.Modal(document.getElementById("galleryModal")).show();
+        }
+
+        // Переключатель темы
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
         const body = document.body;
         
-        // Check for saved theme preference or respect OS preference
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        // Проверяем сохраненную тему
+        const savedTheme = localStorage.getItem('theme') || 'light';
         
-        // Apply saved theme
         if (savedTheme === 'dark') {
             body.classList.add('dark-theme');
-            themeToggleFloating.checked = true;
+            themeIcon.classList.remove('bi-sun-fill');
+            themeIcon.classList.add('bi-moon-fill');
         }
         
-        // Theme toggle event for floating header
-        themeToggleFloating.addEventListener('change', function() {
-            if (this.checked) {
-                body.classList.add('dark-theme');
+        // Обработчик клика на переключатель темы
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark-theme');
+            
+            if (body.classList.contains('dark-theme')) {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-fill');
                 localStorage.setItem('theme', 'dark');
             } else {
-                body.classList.remove('dark-theme');
+                themeIcon.classList.remove('bi-moon-fill');
+                themeIcon.classList.add('bi-sun-fill');
                 localStorage.setItem('theme', 'light');
             }
         });
         
-        // Mobile menu functionality
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const menu = document.querySelector('.menu');
-        
-        if (mobileMenuBtn) {
-            mobileMenuBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
+        // Плавный скролл для навигации
+        document.querySelectorAll('.nav-link, .btn[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
-                menu.classList.toggle('active');
-                this.classList.toggle('active');
-            });
-        }
-        
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (menu.classList.contains('active') && 
-                !menu.contains(e.target) && 
-                !mobileMenuBtn.contains(e.target)) {
-                menu.classList.remove('active');
-                mobileMenuBtn.classList.remove('active');
-            }
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.remove('active');
-                mobileMenuBtn.classList.remove('active');
-            });
-        });
-        
-        // Active menu item on scroll
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.menu a');
-        
-        function highlightMenuOnScroll() {
-            let scrollY = window.pageYOffset;
-            
-            sections.forEach(section => {
-                const sectionHeight = section.offsetHeight;
-                const sectionTop = section.offsetTop - 150;
-                const sectionId = section.getAttribute('id');
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
                 
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    navLinks.forEach(link => {
-                        link.classList.remove('active');
-                        if (link.getAttribute('href') === `#${sectionId}`) {
-                            link.classList.add('active');
-                        }
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Закрываем мобильное меню если оно открыто
+                    const navbarCollapse = document.getElementById('navbarNav');
+                    if (navbarCollapse.classList.contains('show')) {
+                        const bsCollapse = new bootstrap.Collapse(navbarCollapse);
+                        bsCollapse.hide();
+                    }
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
                     });
                 }
             });
-        }
+        });
         
-        window.addEventListener('scroll', highlightMenuOnScroll);
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
         
-        // Back to top button functionality
-        const backToTopButton = document.getElementById('backToTop');
-        
-        window.addEventListener('scroll', () => {
+        window.addEventListener('scroll', function() {
             if (window.pageYOffset > 300) {
-                backToTopButton.style.display = 'block';
+                backToTopBtn.style.display = 'flex';
             } else {
-                backToTopButton.style.display = 'none';
+                backToTopBtn.style.display = 'none';
             }
         });
         
-        backToTopButton.addEventListener('click', () => {
+        backToTopBtn.addEventListener('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         
-        // EmailJS Form Submission
+        // Form Submission with EmailJS
         document.getElementById('joinForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form values
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
             const email = document.getElementById('email').value;
             const interest = document.getElementById('interest').value;
             
-            // Simple validation
             if (firstName && lastName && email && interest) {
                 // Show loading spinner
                 const loadingSpinner = document.getElementById('loadingSpinner');
                 const submitBtn = document.getElementById('submitBtn');
                 const formSuccess = document.getElementById('formSuccess');
                 
-                loadingSpinner.classList.add('show');
+                loadingSpinner.style.display = 'block';
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = 'Відправка...';
-
+                
+                // Send email via EmailJS
                 emailjs.sendForm('service_ebpsf79', 'template_8o9mk7a', this)
                     .then(function(response) {
                         console.log('SUCCESS!', response.status, response.text);
                         
                         // Hide loading spinner
-                        loadingSpinner.classList.remove('show');
+                        loadingSpinner.style.display = 'none';
                         
                         // Show success message
-                        formSuccess.classList.add('show');
+                        formSuccess.style.display = 'block';
                         
                         // Scroll to success message
                         setTimeout(() => {
@@ -1537,7 +1272,7 @@
                         console.log('FAILED...', error);
                         
                         // Hide loading spinner
-                        loadingSpinner.classList.remove('show');
+                        loadingSpinner.style.display = 'none';
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = 'Відправити заявку';
                         
@@ -1548,20 +1283,6 @@
                 alert('Будь ласка, заповніть обов\'язкові поля: Ім\'я, Прізвище, Email та Напрямок');
             }
         });
-        
-        // Function to reset form
-        function resetForm() {
-            const formSuccess = document.getElementById('formSuccess');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            formSuccess.classList.remove('show');
-            document.getElementById('joinForm').reset();
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Відправити заявку';
-            
-            // Scroll back to form
-            document.getElementById('joinForm').scrollIntoView({ behavior: 'smooth' });
-        }
         
         // Scroll animations
         const observerOptions = {
@@ -1582,45 +1303,9 @@
             observer.observe(el);
         });
         
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 120,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-        
-        // Lazy loading images
-        document.addEventListener('DOMContentLoaded', function() {
-            const lazyImages = document.querySelectorAll('.lazy-load');
-            
-            const imageObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const img = entry.target;
-                        img.src = img.dataset.src;
-                        img.classList.add('lazy-loaded');
-                        observer.unobserve(img);
-                    }
-                });
-            });
-            
-            lazyImages.forEach(img => imageObserver.observe(img));
-        });
-        
         // Floating header scroll effect
         window.addEventListener('scroll', function() {
-            const floatingHeader = document.querySelector('.floating-header');
+            const floatingHeader = document.querySelector('.navbar-custom');
             if (window.pageYOffset > 50) {
                 floatingHeader.style.transform = 'translateX(-50%) translateY(-10px)';
                 floatingHeader.style.opacity = '0.95';
@@ -1630,53 +1315,5 @@
             }
         });
     </script>
-    <!-- Modal Gallery -->
-<div class="modal fade" id="galleryModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content bg-dark">
-            <div class="modal-body p-0">
-
-                <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner" id="gallerySlides"></div>
-
-                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon"></span>
-                    </button>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-const galleryData = {
-    ai: ["img/ai1.jpg", "img/ai2.jpg", "img/ai3.jpg"],
-    cyber: ["img/cyber1.jpg", "img/cyber2.jpg", "img/cyber3.jpg"],
-    dev: ["img/dev1.jpg", "img/dev2.jpg", "img/dev3.jpg"],
-    robo: ["img/robo1.jpg", "img/robo2.jpg", "img/robo3.jpg"],
-    data: ["img/data1.jpg", "img/data2.jpg", "img/data3.jpg"],
-    game: ["img/game1.jpg", "img/game2.jpg", "img/game3.jpg"]
-};
-
-function openGallery(key) {
-    const slides = document.getElementById("gallerySlides");
-    slides.innerHTML = "";
-
-    galleryData[key].forEach((src, index) => {
-        slides.innerHTML += `
-            <div class="carousel-item ${index === 0 ? "active" : ""}">
-                <img src="${src}" class="d-block w-100" style="max-height: 90vh; object-fit: contain;">
-            </div>
-        `;
-    });
-
-    new bootstrap.Modal(document.getElementById("galleryModal")).show();
-}
-</script>
 </body>
 </html>
