@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
     <script>
-        // Ініціалізація EmailJS - ПОТРІБНО ЗАМІНИТИ 'YOUR_PUBLIC_KEY' НА СВІЙ КЛЮЧ
+        // Ініціалізація EmailJS
         (function() {
-            emailjs.init("x3U6birXPY5hF879v"); // Замінити на свій Public Key
+            emailjs.init("x3U6birXPY5hF879v"); 
         })();
     </script>
     <!-- Custom CSS -->
@@ -238,6 +240,37 @@
             color: #f1c40f;
             filter: drop-shadow(0 0 3px rgba(241, 196, 15, 0.3));
         }
+
+        body.dark-theme input,
+        body.dark-theme select,
+        body.dark-theme textarea {
+            color: var(--text-color) !important;
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+        }
+
+        /* Плейсхолдеры */
+        body.dark-theme input::placeholder,
+        body.dark-theme textarea::placeholder,
+        body.dark-theme select::placeholder {
+            color: rgba(230, 238, 246, 0.6) !important;
+        }
+
+        /* Текст над полями (label или span над формой) */
+        body.dark-theme .form-label,
+        body.dark-theme label,
+        body.dark-theme .label-text {
+            color: var(--text-color) !important;
+        }
+
+        /* Заголовки секции */
+        body.dark-theme h2,
+        body.dark-theme h3,
+        body.dark-theme p {
+            color: var(--text-color) !important;
+        }
+
+
         
         /* Кнопка мобільного меню - ИСПРАВЛЕНО */
         .mobile-menu-btn {
@@ -576,30 +609,44 @@
         }
         
         .footer {
-            background-color: var(--footer-bg);
-            color: white;
-            padding: 60px 0 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            padding: 30px 0 20px;
+            background: var(--footer-bg);
+            color: var(--text-color);
+            font-size: 14px;
         }
-        
-        .footer .row  {
-            justify-content: center;
-             text-align: center;
+
+        .footer h5 {
+            font-size: 17px;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
-        
-        .footer ul {
-            list-style: none;
-            padding-left: 0;
+
+        .footer p,
+        .footer li {
+            margin-bottom: 6px;
         }
-        
-        .footer .d-flex {
-            justify-content: center;
+
+        .footer ul li {
+            opacity: 0.85;
         }
-        
+
+        .footer-extra p {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .footer .copyright p {
+            font-size: 12.5px;
+            opacity: 0.55;
+            margin: 0;
+        }
+
+        /* Тёмная тема */
+        body.dark-theme .footer {
+            background: #0c0f11 !important;
+            color: #e4e9ee !important;
+        }
+
         
         .copyright {
             border-top: 1px solid rgba(255,255,255,0.1);
@@ -633,6 +680,37 @@
             color: #adb5bd !important;
         }
         
+        #backToTop {
+            padding: 0 !important;          /* убираем лишний отступ Bootstrap */
+            display: flex !important;       /* центрируем иконку */
+            justify-content: center !important;
+            align-items: center !important;
+        }
+
+        /* Центровка иконки */
+        #backToTop i {
+            line-height: 1 !important;
+            font-size: 20px;                /* можно менять */
+        }
+
+        .direction-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .direction-card:hover {
+            transform: translateY(-5px);
+        }       
+
+        .direction-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -723,7 +801,22 @@
         .lazy-loaded {
             opacity: 1;
         }
-        
+
+        .dark-theme {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #1abc9c;
+            --light-color: #2c3e50;
+            --dark-color: #ecf0f1;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --footer-bg: #0d1117;
+            --navbar-bg: #1a1a1a;
+            --border-color: #333;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            }
+
         /* Додаткові адаптивні стилі */
         @media (max-width: 576px) {
             .hero-title {
@@ -825,52 +918,89 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 hero-content">
-                    <h1 class="hero-title">Технологічний ліцей INTITA</h1>
-                    <p class="hero-subtitle">Соціальна мережа для юних інноваторів та дослідників. Місце, де народжуються технології майбутнього.</p>
-                    <div class="d-flex flex-wrap gap-3">
-                        <a href="#directions" class="btn btn-primary-custom">Дізнатися більше</a>
-                        <a href="#join" class="btn btn-outline-light btn-lg rounded-pill">Приєднатися до спільноти</a>
-                    </div>
+   <!-- Hero Section -->
+<section id="home" class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            
+            <!-- LEFT TEXT -->
+            <div class="col-lg-6 hero-content">
+                <h1 class="hero-title">Технологічний ліцей INTITA</h1>
+                <p class="hero-subtitle">
+                    Соціальна мережа для юних інноваторів та дослідників. 
+                    Місце, де народжуються технології майбутнього.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#directions" class="btn btn-primary-custom">Дізнатися більше</a>
+                    <a href="#join" class="btn btn-outline-light btn-lg rounded-pill">Приєднатися до спільноти</a>
                 </div>
-                <div class="col-lg-6 mt-5 mt-lg-0">
-                    <div class="position-relative">
-                        <div class="rounded-3 p-4 shadow-lg" style="background-color: var(--card-bg); animation: fadeInUp 1s ease-out 0.9s both;">
-                            <div class="d-flex mb-3">
-                                <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
-                                <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
-                                <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
-                            </div>
-                            <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="rounded-circle bg-secondary me-2" style="width: 40px; height: 40px;"></div>
-                                    <div>
-                                        <div class="fw-bold" style="color: var(--text-color);">Олексій Технолог</div>
-                                        <div class="small" style="color: var(--text-color); opacity: 0.7;">Представив новий проект: "Розумне місто"</div>
-                                    </div>
-                                </div>
-                                <p class="mb-0" style="color: var(--text-color);">Розробив систему автоматизованого управління вуличним освітленням з використанням штучного інтелекту.</p>
-                            </div>
-                            <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="rounded-circle bg-primary me-2" style="width: 40px; height: 40px;"></div>
-                                    <div>
-                                        <div class="fw-bold" style="color: var(--text-color);">Марія Іноватор</div>
-                                        <div class="small" style="color: var(--text-color); opacity: 0.7;">Поділилася досягненням</div>
-                                    </div>
-                                </div>
-                                <p class="mb-0" style="color: var(--text-color);">Створила власний чат-бот для допомоги у вивченні математики. Код доступний для всіх!</p>
-                            </div>
+            </div>
+
+            <!-- RIGHT CARDS WITH PHOTOS -->
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="position-relative">
+                    <div class="rounded-3 p-4 shadow-lg" 
+                         style="background-color: var(--card-bg); animation: fadeInUp 1s ease-out 0.9s both;">
+                        
+                        <!-- Fake Window Buttons -->
+                        <div class="d-flex mb-3">
+                            <div class="rounded-circle bg-danger me-2" style="width: 15px; height: 15px;"></div>
+                            <div class="rounded-circle bg-warning me-2" style="width: 15px; height: 15px;"></div>
+                            <div class="rounded-circle bg-success" style="width: 15px; height: 15px;"></div>
                         </div>
+
+                        <!-- CARD 1 -->
+                        <div class="border rounded p-3 mb-3" style="border-color: var(--border-color) !important;">
+                            <div class="d-flex align-items-center mb-2">
+
+                                <!-- АВАТАР -->
+                                <img src="img/people/Олексій Технолог.jpg"
+                                     alt="Олексій"
+                                     class="rounded-circle me-2"
+                                     style="width: 50px; height: 50px; object-fit: cover;">
+
+                                <div>
+                                    <div class="fw-bold" style="color: var(--text-color);">Олексій Технолог</div>
+                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">
+                                        Представив новий проект: "Розумне місто"
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0" style="color: var(--text-color);">
+                                Розробив систему автоматизованого управління вуличним освітленням з ШІ.
+                            </p>
+                        </div>
+
+                        <!-- CARD 2 -->
+                        <div class="border rounded p-3" style="border-color: var(--border-color) !important;">
+                            <div class="d-flex align-items-center mb-2">
+
+                                <!-- АВАТАР -->
+                                <img src="img/people/Марія Іноватор.jpeg"
+                                     alt="Марія"
+                                     class="rounded-circle me-2"
+                                     style="width: 50px; height: 50px; object-fit: cover;">
+
+                                <div>
+                                    <div class="fw-bold" style="color: var(--text-color);">Марія Іноватор</div>
+                                    <div class="small" style="color: var(--text-color); opacity: 0.7;">
+                                        Поділилася досягненням
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0" style="color: var(--text-color);">
+                                Створила чат-бота для вивчення математики. Код доступний всім!
+                            </p>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
         </div>
-    </section>
+    </div>
+</section>
+
 
     <!-- About Section -->
     <section id="about" class="py-5">
@@ -910,100 +1040,85 @@
         </div>
     </section>
 
-    <!-- Directions Section -->
-    <section id="directions" class="py-5" style="background-color: var(--light-color);">
-        <div class="container py-5">
-            <h2 class="section-title text-center">Технологічні напрямки</h2>
-            <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">Ми пропонуємо сучасні освітні напрямки, які відповідають вимогам ринку та дозволяють реалізувати свій потенціал.</p>
-            
-            <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #3498db;"></div>
-                        <div class="direction-content">
-                            <h4>Штучний інтелект та ML</h4>
-                            <p>Вивчай машинне навчання, нейронні мережі та розробку інтелектуальних систем. Створюй програми, які вміють мислити.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-primary me-2">Python</span>
-                                <span class="badge bg-primary me-2">TensorFlow</span>
-                                <span class="badge bg-primary">PyTorch</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #2ecc71;"></div>
-                        <div class="direction-content">
-                            <h4>Кібербезпека</h4>
-                            <p>Навчися захищати інформаційні системи, виявляти вразливості та протидіяти кібератакам. Стань захисником цифрового простору.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-success me-2">Ethical Hacking</span>
-                                <span class="badge bg-success me-2">Cryptography</span>
-                                <span class="badge bg-success">Network Security</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #9b59b6;"></div>
-                        <div class="direction-content">
-                            <h4>Розробка ПЗ</h4>
-                            <p>Опануй сучасні технології розробки програмного забезпечення. Створюй веб-сайти, мобільні додатки та десктопні програми.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-purple me-2">JavaScript</span>
-                                <span class="badge bg-purple me-2">React</span>
-                                <span class="badge bg-purple">Node.js</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #e74c3c;"></div>
-                        <div class="direction-content">
-                            <h4>Робототехніка</h4>
-                            <p>Конструюй та програмуй роботів. Вивчай мікроелектроніку, автоматизацію та створення розумних механізмів.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-danger me-2">Arduino</span>
-                                <span class="badge bg-danger me-2">Raspberry Pi</span>
-                                <span class="badge bg-danger">C++</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #f39c12;"></div>
-                        <div class="direction-content">
-                            <h4>Data Science</h4>
-                            <p>Навчися аналізувати великі дані, будувати прогнози та візуалізувати результати. Приймай рішення на основі даних.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-warning me-2">Python</span>
-                                <span class="badge bg-warning me-2">SQL</span>
-                                <span class="badge bg-warning">Tableau</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="direction-card fade-in">
-                        <div class="direction-img" style="background-color: #1abc9c;"></div>
-                        <div class="direction-content">
-                            <h4>Game Development</h4>
-                            <p>Створюй власні ігрові всесвіти. Опануй геймдизайн, програмування ігрових рушіїв та створення графіки.</p>
-                            <div class="mt-3">
-                                <span class="badge bg-info me-2">Unity</span>
-                                <span class="badge bg-info me-2">C#</span>
-                                <span class="badge bg-info">3D Modeling</span>
-                            </div>
-                        </div>
+<!-- Directions Section -->
+<section id="directions" class="py-5" style="background-color: var(--light-color);">
+    <div class="container py-5">
+        <h2 class="section-title text-center">Технологічні напрямки</h2>
+        <p class="text-center fs-5 mb-5 mx-auto" style="max-width: 800px;">
+            Ми пропонуємо сучасні освітні напрямки, які відповідають вимогам ринку та дозволяють реалізувати свій потенціал.
+        </p>
+
+        <div class="row g-4">
+
+            <!-- AI -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('ai')" style="cursor: pointer;">
+                    <img src="img/ai1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Штучний інтелект та ML</h4>
+                        <p>Машинне навчання, нейронні мережі та інтелектуальні системи.</p>
                     </div>
                 </div>
             </div>
+
+            <!-- Cyber -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('cyber')" style="cursor: pointer;">
+                    <img src="img/cyber1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Кібербезпека</h4>
+                        <p>Захист систем, виявлення вразливостей та протидія атакам.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dev -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('dev')" style="cursor: pointer;">
+                    <img src="img/dev1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Розробка ПЗ</h4>
+                        <p>Створення веб-сайтів, мобільних додатків та програм.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robotics -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('robo')" style="cursor: pointer;">
+                    <img src="img/robo1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Робототехніка</h4>
+                        <p>Роботи, електроніка та автоматизація.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Science -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('data')" style="cursor: pointer;">
+                    <img src="img/data1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Data Science</h4>
+                        <p>Аналіз даних, прогнозування та візуалізація.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Dev -->
+            <div class="col-lg-4 col-md-6">
+                <div class="direction-card fade-in" onclick="openGallery('game')" style="cursor: pointer;">
+                    <img src="img/game1.jpg" class="direction-img">
+                    <div class="direction-content">
+                        <h4>Game Development</h4>
+                        <p>Ігрові рушії, графіка та геймдизайн.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Social Network Section -->
     <section id="social" class="social-network-showcase">
@@ -1224,32 +1339,53 @@
         </div>
     </section>
 
-    <!-- Footer -->
 <footer class="footer">
     <div class="container">
-        <div class="row">
-            <!-- Первая колонка -->
-            <div class="col-lg-4 mb-4 text-center text-lg-start"> 
-                <!-- text-lg-start оставит текст слева на больших экранах, но на мобильных будет по центру -->
+        <div class="row justify-content-between align-items-start">
+
+            <!-- Левая колонка -->
+            <div class="col-lg-4 col-md-6 mb-4 text-center text-lg-start">
                 <h5><i class="bi bi-cpu-fill me-2"></i> INTITA Ліцей</h5>
                 <p>Майбутнє починається тут.</p>
+                <p>Освітній простір, де учні отримують сучасні знання, навички та можливості для розвитку у сфері ІТ.</p>
+                <p>Ми навчаємо мислити, створювати, впроваджувати технології майбутнього.</p>
             </div>
-            <!-- Вторая колонка -->
+
+            <!-- Средняя колонка (заполняем пустое пространство) -->
+            <div class="col-lg-4 col-md-6 mb-4 text-center text-lg-start">
+                <h5>Про нас</h5>
+                <ul class="list-unstyled">
+                    <li>ІТ-освіта нового покоління</li>
+                    <li>Інноваційні підходи до навчання</li>
+                    <li>Підтримка талантів та розвиток навичок</li>
+                    <li>Партнерство з провідними компаніями</li>
+                </ul>
+            </div>
+
+            <!-- Правая колонка -->
             <div class="col-lg-3 col-md-6 mb-4 text-center text-lg-start">
                 <h5>Контакти</h5>
-                <ul class="list-unstyled"> <!-- Убираем маркеры списка -->
+                <ul class="list-unstyled">
                     <li><i class="bi bi-geo-alt me-2"></i> Вінниця, вул. Привокзальна, 38</li>
                     <li><i class="bi bi-telephone me-2"></i> +380 (68) 446-71-43</li>
                     <li><i class="bi bi-envelope me-2"></i> glavbkeycompany@gmail.com</li>
-                    <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 - 18:00</li>
+                    <li><i class="bi bi-clock me-2"></i> Пн-Пт: 9:00 – 18:00</li>
                 </ul>
             </div>
+
         </div>
-        <div class="copyright text-center"> <!-- Центрируем текст копирайта -->
+
+        <!-- Нижний текст -->
+        <div class="text-center mt-2 footer-extra">
+            <p>Сайт створений учнями та викладачами INTITA з метою популяризації сучасної ІТ-освіти.</p>
+        </div>
+
+        <div class="copyright text-center mt-1">
             <p>&copy; 2025 Технологічний ліцей INTITA. Всі права захищені.</p>
         </div>
     </div>
 </footer>
+
 
     <!-- Back to Top Button -->
     <button id="backToTop" class="btn btn-primary-custom rounded-circle position-fixed" style="bottom: 30px; right: 30px; width: 50px; height: 50px; display: none;">
@@ -1494,7 +1630,53 @@
             }
         });
     </script>
+    <!-- Modal Gallery -->
+<div class="modal fade" id="galleryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-dark">
+            <div class="modal-body p-0">
+
+                <div id="galleryCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="gallerySlides"></div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const galleryData = {
+    ai: ["img/ai1.jpg", "img/ai2.jpg", "img/ai3.jpg"],
+    cyber: ["img/cyber1.jpg", "img/cyber2.jpg", "img/cyber3.jpg"],
+    dev: ["img/dev1.jpg", "img/dev2.jpg", "img/dev3.jpg"],
+    robo: ["img/robo1.jpg", "img/robo2.jpg", "img/robo3.jpg"],
+    data: ["img/data1.jpg", "img/data2.jpg", "img/data3.jpg"],
+    game: ["img/game1.jpg", "img/game2.jpg", "img/game3.jpg"]
+};
+
+function openGallery(key) {
+    const slides = document.getElementById("gallerySlides");
+    slides.innerHTML = "";
+
+    galleryData[key].forEach((src, index) => {
+        slides.innerHTML += `
+            <div class="carousel-item ${index === 0 ? "active" : ""}">
+                <img src="${src}" class="d-block w-100" style="max-height: 90vh; object-fit: contain;">
+            </div>
+        `;
+    });
+
+    new bootstrap.Modal(document.getElementById("galleryModal")).show();
+}
+</script>
 </body>
 </html>
-
-#хто сюда дочитав тот лох
